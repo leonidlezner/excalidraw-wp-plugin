@@ -1,1 +1,0 @@
-<h1>Excalidraw documents</h1>
