@@ -1,0 +1,19 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.useTabStops": false,
+  "html.format.wrapAttributes": "aligned-multiple",
+  "html.format.wrapAttributesIndentSize": 100,
+  "editor.wordWrap": "off",
+  "html.format.wrapLineLength": 0,
+  "intelephense.environment.includePaths": [
+    "../../../wp-includes",
+    "../../../"
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "prettier.documentSelectors": [
+    "**/*.{js,jsx,ts,tsx,vue,html,css,scss,less,json,md,mdx,graphql,yaml,yml,php}"
+  ]
+}
