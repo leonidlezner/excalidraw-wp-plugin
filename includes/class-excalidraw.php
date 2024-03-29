@@ -3,18 +3,21 @@
 class Excalidraw
 {
   protected $loader;
-  protected $plugin_name;
-  protected $version;
+  protected static $plugin_name = 'excalidraw';
+  protected static $version = EXCALIDRAW_VERSION;
 
   public function __construct()
   {
-    $this->version = EXCALIDRAW_VERSION;
-    $this->plugin_name = 'excalidraw';
-
     $this->load_dependencies();
     $this->set_locale();
     $this->define_admin_hooks();
     $this->define_public_hooks();
+  }
+
+  public static function getDBTableName()
+  {
+    global $wpdb;
+    return $wpdb->prefix . self::$plugin_name;
   }
 
   private function load_dependencies()
@@ -60,7 +63,7 @@ class Excalidraw
 
   public function get_plugin_name()
   {
-    return $this->plugin_name;
+    return self::$plugin_name;
   }
 
   public function get_loader()
@@ -70,6 +73,6 @@ class Excalidraw
 
   public function get_version()
   {
-    return $this->version;
+    return self::$version;
   }
 }

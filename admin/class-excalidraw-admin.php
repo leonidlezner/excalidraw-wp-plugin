@@ -1,11 +1,10 @@
 <?php
 
+
 class Excalidraw_Admin
 {
   private $plugin_name;
   private $version;
-
-
 
   public function __construct($plugin_name, $version)
   {
@@ -75,24 +74,100 @@ class Excalidraw_Admin
     $apiURL = admin_url("admin-ajax.php");
     $nonce = wp_create_nonce("excalidraw_save");
 
+    $table_name = Excalidraw::getDBTableName();
+
     if (self::isView('edit')) {
+      $docId = $_GET['docId'];
+      $doc = $this->getDocumentFromDB($docId);
+
+      $docTitle = $doc->title;
+      $docId = $doc->uuid;
+      $docSource = $doc->source;
+
+      $docUrl = admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId);
+
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else if (self::isView('new')) {
       $docTitle = "New Excalidraw Document";
       $docId = $this->getUID();
+      $docUrl = admin_url('admin.php?page=excalidraw&view=new');
+      $docSource = "";
+
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else {
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-list.php';
     }
   }
 
+  private function getDocumentFromDB($docId)
+  {
+    global $wpdb;
+    $table_name = Excalidraw::getDBTableName();
+
+    $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE uuid = %s", $docId);
+
+    $results = $wpdb->get_results($sql);
+
+    if (count($results) < 1) {
+      return null;
+    } else {
+      return $results[0];
+    }
+  }
+
   function admin_ajax_handler_save()
   {
+    global $wpdb;
+
     check_ajax_referer("excalidraw_save");
 
+    $request_body = file_get_contents('php://input');
 
+    if (!$request_body) {
+      wp_send_json_error("Wrong data sent to server.");
+    }
 
-    wp_send_json_success();
-    //wp_send_json_error("File too big");
+    $data = json_decode($request_body);
+
+    if (!$data->docId) {
+      wp_send_json_error("docId not set");
+    }
+
+    $table_name = Excalidraw::getDBTableName();
+
+    $existingDocument = $this->getDocumentFromDB($data->docId);
+
+    $currentTime = date('Y-m-d H:i:s', time());
+
+    $docData = array(
+      'source' => $data->source,
+      'full' => $data->full,
+      'thumbnail' => $data->thumbnail,
+      'title' => $data->title,
+      'updated' => $currentTime
+    );
+
+    if ($existingDocument) {
+      $results = $wpdb->update($table_name, $docData, array('uuid' => $data->docId));
+
+      if (!$results || $results < 1) {
+        wp_send_json_error("Could not update the document.");
+      }
+
+      wp_send_json_success();
+    } else {
+      $docData['created'] = $currentTime;
+      $docData['uuid'] = $data->docId;
+
+      $results = $wpdb->insert($table_name, $docData);
+
+      if (!$results || $results < 1) {
+        wp_send_json_error("Could not create the document.");
+      }
+
+      wp_send_json_success([
+        'redirect' => admin_url('admin.php?page=excalidraw&view=edit&docId=' . $data->docId)
+      ]);
+    }
   }
 }

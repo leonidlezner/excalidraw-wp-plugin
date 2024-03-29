@@ -6,7 +6,7 @@ class Excalidraw_Activator
   {
     global $wpdb;
 
-    $table_name = $wpdb->prefix . 'excalidraw';
+    $table_name = Excalidraw::getDBTableName();
 
     $charset_collate = $wpdb->get_charset_collate();
 
