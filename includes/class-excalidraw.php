@@ -43,6 +43,7 @@ class Excalidraw
     $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
     $this->loader->add_action('script_loader_tag', $plugin_admin, 'script_loader_tag', 10, 3);
     $this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
+    $this->loader->add_action('wp_ajax_excalidraw_save', $plugin_admin, 'admin_ajax_handler_save');
   }
 
   private function define_public_hooks()

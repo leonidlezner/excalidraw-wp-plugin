@@ -25,7 +25,7 @@ class Excalidraw_Admin
   public function enqueue_scripts()
   {
     if (self::isView('new') || self::isView('edit')) {
-      if (is_array(wp_remote_get('http://localhost:5173/'))) { // TODO: change this check so something more performant
+      if (defined('EXCALIDRAW_DEV') && is_array(wp_remote_get('http://localhost:5173/'))) { // TODO: change this check so something more performant
         wp_enqueue_script('vite', 'http://localhost:5173/@vite/client', [], null);
         wp_enqueue_script($this->plugin_name, 'http://localhost:5173/src/App.tsx', [], null, true);
         wp_enqueue_style($this->plugin_name, 'http://localhost:5173/src/App.css', [], 'null');
@@ -65,14 +65,34 @@ class Excalidraw_Admin
     add_menu_page('Drawings', 'Excalidraw', 'manage_options', 'excalidraw', array($this, 'admin_menu_display'), '', 11);
   }
 
+  private function getUID()
+  {
+    return uniqid();
+  }
+
   public function admin_menu_display()
   {
+    $apiURL = admin_url("admin-ajax.php");
+    $nonce = wp_create_nonce("excalidraw_save");
+
     if (self::isView('edit')) {
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else if (self::isView('new')) {
-      require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-new.php';
+      $docTitle = "New Excalidraw Document";
+      $docId = $this->getUID();
+      require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else {
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-list.php';
     }
+  }
+
+  function admin_ajax_handler_save()
+  {
+    check_ajax_referer("excalidraw_save");
+
+
+
+    wp_send_json_success();
+    //wp_send_json_error("File too big");
   }
 }
