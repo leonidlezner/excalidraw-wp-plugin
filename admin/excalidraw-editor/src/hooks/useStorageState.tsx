@@ -4,7 +4,7 @@ export default function useStorageState<T>(
   defaultValue: T,
   name: string,
   permanent: boolean,
-  serializeCallback: Function | undefined = undefined,
+  serializeCallback: Function | undefined = undefined
 ) {
   const storage = permanent ? window.localStorage : window.sessionStorage;
 
@@ -72,5 +72,10 @@ export default function useStorageState<T>(
     storage.removeItem(name);
   };
 
-  return [value, setValueAndSave, deleteValue];
+  const reloadValue = () => {
+    const saved = loadValue(name);
+    setValue(saved);
+  };
+
+  return [value, setValueAndSave, deleteValue, reloadValue];
 }

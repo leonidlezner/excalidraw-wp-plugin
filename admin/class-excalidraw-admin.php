@@ -44,14 +44,18 @@ class Excalidraw_Admin
   {
     if (in_array($handle, ['vite', $this->plugin_name])) {
       $script = [];
-      // Add this script according to the Vite docs: https://vitejs.dev/guide/backend-integration.html
-      $script[] = '<script type="module">';
-      $script[] = '  import RefreshRuntime from \'http://localhost:5173/@react-refresh\'';
-      $script[] = '  RefreshRuntime.injectIntoGlobalHook(window)';
-      $script[] = '  window.$RefreshReg$ = () => {}';
-      $script[] = '  window.$RefreshSig$ = () => (type) => type';
-      $script[] = '  window.__vite_plugin_react_preamble_installed__ = true';
-      $script[] = '</script>';
+
+      if ($handle == 'vite') {
+        // Add this script according to the Vite docs: https://vitejs.dev/guide/backend-integration.html
+        $script[] = '<script type="module">';
+        $script[] = '  import RefreshRuntime from \'http://localhost:5173/@react-refresh\'';
+        $script[] = '  RefreshRuntime.injectIntoGlobalHook(window)';
+        $script[] = '  window.$RefreshReg$ = () => {}';
+        $script[] = '  window.$RefreshSig$ = () => (type) => type';
+        $script[] = '  window.__vite_plugin_react_preamble_installed__ = true';
+        $script[] = '</script>';
+      }
+
       $script[] = '<script type="module" src="' . esc_url($src) . '" defer></script>';
       return join("\n", $script);
     }
@@ -83,13 +87,14 @@ class Excalidraw_Admin
       $docTitle = $doc->title;
       $docId = $doc->uuid;
       $docSource = $doc->source;
+      $docFiles = $doc->files;
 
       $docUrl = admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId);
 
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else if (self::isView('new')) {
       $docTitle = "New Excalidraw Document";
-      $docId = $this->getUID();
+      $docId = "";
       $docUrl = admin_url('admin.php?page=excalidraw&view=new');
       $docSource = "";
 
@@ -128,19 +133,23 @@ class Excalidraw_Admin
     }
 
     $data = json_decode($request_body);
+    $docId = null;
+    $existingDocument = null;
 
-    if (!$data->docId) {
-      wp_send_json_error("docId not set");
+    if ($data->docId) {
+      $docId = $data->docId;
+      $existingDocument = $this->getDocumentFromDB($docId);
+    } else {
+      $docId = $this->getUID();
     }
 
     $table_name = Excalidraw::getDBTableName();
-
-    $existingDocument = $this->getDocumentFromDB($data->docId);
 
     $currentTime = date('Y-m-d H:i:s', time());
 
     $docData = array(
       'source' => $data->source,
+      'files' => $data->files,
       'full' => $data->full,
       'thumbnail' => $data->thumbnail,
       'title' => $data->title,
@@ -148,16 +157,16 @@ class Excalidraw_Admin
     );
 
     if ($existingDocument) {
-      $results = $wpdb->update($table_name, $docData, array('uuid' => $data->docId));
+      $result = $wpdb->update($table_name, $docData, array('uuid' => $docId));
 
-      if (!$results || $results < 1) {
+      if ($result === false) {
         wp_send_json_error("Could not update the document.");
       }
 
       wp_send_json_success();
     } else {
       $docData['created'] = $currentTime;
-      $docData['uuid'] = $data->docId;
+      $docData['uuid'] = $docId;
 
       $results = $wpdb->insert($table_name, $docData);
 
@@ -166,7 +175,7 @@ class Excalidraw_Admin
       }
 
       wp_send_json_success([
-        'redirect' => admin_url('admin.php?page=excalidraw&view=edit&docId=' . $data->docId)
+        'redirect' => admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId)
       ]);
     }
   }

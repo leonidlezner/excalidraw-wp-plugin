@@ -14,6 +14,7 @@ class Excalidraw_Activator
     	`id` INT NOT NULL AUTO_INCREMENT,
     	`uuid` TINYTEXT NOT NULL,
     	`source` LONGTEXT NOT NULL,
+    	`files` LONGTEXT NOT NULL,
     	`full` LONGTEXT NOT NULL,
     	`thumbnail` LONGTEXT NOT NULL,
     	`title` TEXT,

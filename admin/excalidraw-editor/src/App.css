@@ -25,3 +25,8 @@
 .excalidraw-outer-toolbar .toolbar div {
   margin-left: 5px;
 }
+
+.excalidraw-outer-toolbar .save-button {
+  padding-left: 2em;
+  padding-right: 2em;
+}

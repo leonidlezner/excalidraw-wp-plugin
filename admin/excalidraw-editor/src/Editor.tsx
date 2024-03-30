@@ -1,36 +1,25 @@
 import {
   Excalidraw,
   serializeAsJSON,
-  //restoreAppState,
-  //restoreElements,
   exportToSvg,
   useHandleLibrary,
   getSceneVersion,
 } from "@excalidraw/excalidraw";
 
 import {
-  AppState,
-  BinaryFiles,
   ExcalidrawImperativeAPI,
   LibraryItems,
-  //UIAppState,
 } from "@excalidraw/excalidraw/types/types";
 
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import useStorageState from "./hooks/useStorageState";
 import { useCallbackRefState } from "./hooks/useCallbackRefState";
-import { ExcalidrawElement } from "@excalidraw/excalidraw/types/element/types";
 import axios from "axios";
-
-type SceneData = {
-  elements: readonly ExcalidrawElement[];
-  appState: Partial<AppState>;
-  files: BinaryFiles;
-};
 
 export type EditorDataSet = {
   docTitle: string;
   docSource: string;
+  docFiles: string;
   docId: string;
   apiUrl: string;
   nonce: string;
@@ -55,47 +44,12 @@ function Editor(dataSet: EditorDataSet) {
 
   const lastSavedVersion = useRef<number>(0);
 
-  const uiSaveButtonRef = useRef<HTMLButtonElement>(null);
-  const uiCloseButtonRef = useRef<HTMLButtonElement>(null);
-  const uiSpinnerRef = useRef<HTMLElement>(null);
+  const lastLocalScene = useRef<string | null>(null);
 
   const [docTitle, setDocTitle] = useState<string>(dataSet.docTitle);
 
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
-
-  const [currentScene, setCurrentScene, deleteCurrentScene] =
-    useStorageState<SceneData>(
-      {
-        elements: [],
-        appState: {},
-        files: {},
-      } as SceneData,
-      "currentScene-" + dataSet.docId,
-      true,
-      (value: SceneData) => {
-        return serializeAsJSON(
-          value.elements,
-          value.appState,
-          value.files,
-          "local"
-        );
-      }
-    );
-
-  const activateDocUI = (activate: boolean) => {
-    if (uiSaveButtonRef.current) {
-      uiSaveButtonRef.current.disabled = !activate;
-    }
-
-    if (uiCloseButtonRef.current) {
-      uiCloseButtonRef.current.disabled = !activate;
-    }
-
-    if (uiSpinnerRef.current) {
-      uiSpinnerRef.current.className =
-        "spinner" + (!activate ? " is-active" : "");
-    }
-  };
 
   const saveDocument = () => {
     if (!excalidrawAPI) {
@@ -123,6 +77,7 @@ function Editor(dataSet: EditorDataSet) {
           {
             docId: dataSet.docId,
             source: jsonData,
+            files: JSON.stringify(excalidrawAPI.getFiles()),
             full: s.serializeToString(svg),
             thumbnail: "abc",
             title: docTitle,
@@ -141,9 +96,6 @@ function Editor(dataSet: EditorDataSet) {
         // For debugging purposes
         // await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        // TODO: Store the attached files...
-        console.log(excalidrawAPI.getFiles());
-
         if (response.data.success === undefined) {
           throw "Wrong data retured from server.";
         }
@@ -154,7 +106,7 @@ function Editor(dataSet: EditorDataSet) {
 
         lastSavedVersion.current = getVersion();
         setIsDirty(false);
-        deleteCurrentScene();
+        removeFromLocalStorage();
 
         // After saving a new document the server will send an URL to redirect the client
         if (typeof response.data.data === "object") {
@@ -164,10 +116,10 @@ function Editor(dataSet: EditorDataSet) {
         alert("Error occured during saving: " + error);
       }
 
-      activateDocUI(true);
+      setIsSaving(false);
     };
 
-    activateDocUI(false);
+    setIsSaving(true);
     _save();
   };
 
@@ -189,45 +141,100 @@ function Editor(dataSet: EditorDataSet) {
     return getSceneVersion(elements);
   };
 
+  const saveToLocalStorage = () => {
+    if (!excalidrawAPI) {
+      return;
+    }
+
+    if (getVersion() === lastSavedVersion.current) {
+      return;
+    }
+
+    const jsonData = serializeAsJSON(
+      excalidrawAPI.getSceneElements(),
+      excalidrawAPI.getAppState(),
+      excalidrawAPI.getFiles(),
+      "local"
+    );
+
+    window.localStorage.setItem(`currentScene-${dataSet.docId}`, jsonData);
+  };
+
+  const isInLocalStorage = () => {
+    return (
+      window.localStorage.getItem(`currentScene-${dataSet.docId}`) !== null
+    );
+  };
+
+  const loadFromLocalStorage = () => {
+    const jsonData = window.localStorage.getItem(
+      `currentScene-${dataSet.docId}`
+    );
+
+    if (jsonData && excalidrawAPI && lastLocalScene.current !== jsonData) {
+      const scene = JSON.parse(jsonData);
+
+      console.log("updateScene");
+
+      excalidrawAPI.updateScene(scene);
+
+      excalidrawAPI.addFiles(
+        Object.keys(scene.files).map((key) => scene.files[key])
+      );
+    }
+
+    lastLocalScene.current = jsonData;
+  };
+
+  const removeFromLocalStorage = () => {
+    window.localStorage.removeItem(`currentScene-${dataSet.docId}`);
+  };
+
   useEffect(() => {
     if (!excalidrawAPI) {
       return;
     }
 
-    activateDocUI(true);
-
     let loadFromServer = true;
 
-    if (currentScene?.elements?.length > 0) {
+    if (isInLocalStorage()) {
       if (
         window.confirm(
           "Local unsaved version of this document was found. Load the local version?"
         )
       ) {
         loadFromServer = false;
-        excalidrawAPI.updateScene(currentScene);
+        console.log("loadFromLocalStorage after start");
+
+        loadFromLocalStorage();
       }
     }
 
     if (loadFromServer) {
+      removeFromLocalStorage();
+
       if (dataSet.docSource) {
         try {
           const sceneFromServer = JSON.parse(dataSet.docSource);
+          const docFiles = JSON.parse(dataSet.docFiles);
+
           excalidrawAPI.updateScene(sceneFromServer);
+
+          excalidrawAPI.addFiles(
+            Object.keys(docFiles).map((key) => docFiles[key])
+          );
+
           lastSavedVersion.current = getVersion();
           setIsDirty(false);
-        } catch (error) {}
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
 
     const unloadHandler = (event: BeforeUnloadEvent) => {
       if (getVersion() != lastSavedVersion.current) {
-        setCurrentScene({
-          elements: excalidrawAPI.getSceneElements(),
-          appState: excalidrawAPI.getAppState(),
-          files: excalidrawAPI.getFiles(),
-        });
-
+        saveToLocalStorage();
         event?.preventDefault();
       }
     };
@@ -241,15 +248,31 @@ function Editor(dataSet: EditorDataSet) {
     };
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      /* if ((event.ctrlKey || event.metaKey) && event.key === "s") {
+      if ((event.ctrlKey || event.metaKey) && event.key === "s") {
         event.preventDefault();
         saveDocument();
-      } */
+      }
+    };
+
+    const handleWindowFocus = () => {
+      setTimeout(() => {
+        console.log("loadFromLocalStorage on focus");
+        loadFromLocalStorage();
+      }, 500);
+    };
+
+    const handleWindowBlur = () => {
+      console.log("saveToLocalStorage on blur");
+      saveToLocalStorage();
     };
 
     window.addEventListener("beforeunload", unloadHandler);
 
     window.addEventListener("keydown", handleKeyDown);
+
+    window.addEventListener("focus", handleWindowFocus);
+
+    window.addEventListener("blur", handleWindowBlur);
 
     const onCheckVersionTimer = setInterval(onCheckVersion, 1000);
 
@@ -278,23 +301,25 @@ function Editor(dataSet: EditorDataSet) {
             className=""
             onChange={onInputUpdate}
           />
+          <div>Doc ID: {dataSet.docId}</div>
         </div>
 
         <div className="toolbar">
-          <div>
-            <span className="spinner" ref={uiSpinnerRef}></span>
-          </div>
+          <div>{isSaving && <span className="spinner is-active"></span>}</div>
           <div>
             <button
-              className="button button-primary"
+              className="button button-primary save-button"
               onClick={saveDocument}
-              ref={uiSaveButtonRef}
+              disabled={isSaving}
             >
               Save{isDirty ? "*" : ""}
             </button>
           </div>
           <div>
-            <button className="button button-secondary" ref={uiCloseButtonRef}>
+            <button
+              className="button button-secondary"
+              /* ref={uiCloseButtonRef} */ disabled={isSaving}
+            >
               Close
             </button>
           </div>
