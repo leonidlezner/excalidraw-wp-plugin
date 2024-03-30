@@ -56,6 +56,12 @@ class Excalidraw_Admin
         $script[] = '</script>';
       }
 
+      if ($handle == $this->plugin_name) {
+        $script[] = '<script>';
+        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . plugin_dir_url(__FILE__) . 'excalidraw-editor/dist/";';
+        $script[] = '</script>';
+      }
+
       $script[] = '<script type="module" src="' . esc_url($src) . '" defer></script>';
       return join("\n", $script);
     }

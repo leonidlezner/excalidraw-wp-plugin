@@ -1,9 +1,24 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteStaticCopy({
+      targets: [
+        {
+          src: "node_modules/@excalidraw/excalidraw/dist/excalidraw-assets/*",
+          dest: "excalidraw-assets",
+        },
+        {
+          src: "node_modules/@excalidraw/excalidraw/dist/excalidraw-assets-dev/*",
+          dest: "excalidraw-assets-dev",
+        },
+      ],
+    }),
+  ],
   build: {
     manifest: true,
     rollupOptions: {
