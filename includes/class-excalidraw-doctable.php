@@ -18,7 +18,7 @@ class Excalidraw_DocTable extends WP_List_Table
     return [
       //'cb' => '<input type="checkbox" />',
       'document' => __('Document', $this->plugin_name),
-      'last_updated' => __('Last updated', $this->plugin_name),
+      'last_updated' => __('Last modified', $this->plugin_name),
     ];
   }
 

@@ -69,17 +69,16 @@ function Editor(dataSet: EditorDataSet) {
 
         const svg = await exportToSvg({
           elements: elements,
-          appState: appState,
+          appState: { ...appState, exportBackground: false },
           files: files,
+          exportPadding: 2,
         });
 
         const thumbnail = await exportToCanvas({
           elements: elements,
-          appState: appState,
+          appState: { ...appState, exportBackground: false },
           files: files,
-          getDimensions: () => {
-            return { width: 350, height: 350 };
-          },
+          maxWidthOrHeight: 200,
         });
 
         var s = new XMLSerializer();
@@ -344,12 +343,7 @@ function Editor(dataSet: EditorDataSet) {
     <div>
       <div className="excalidraw-outer-toolbar">
         <div className="">
-          <input
-            name="docTitle"
-            value={docTitle}
-            className=""
-            onChange={onInputUpdate}
-          />
+          <input name="docTitle" value={docTitle} onChange={onInputUpdate} />
         </div>
 
         <div className={"toolbar" + (isDirty ? " dirty" : "")}>

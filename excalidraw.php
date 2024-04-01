@@ -13,6 +13,8 @@ if (!defined('ABSPATH')) {
 
 define('EXCALIDRAW_VERSION', '0.0.1');
 
+define('EXCALIDRAW_ROOT_URL', plugin_dir_url(__FILE__));
+
 function wp_excalidraw_activate_plugin()
 {
     require_once plugin_dir_path(__FILE__) . 'includes/class-excalidraw-activator.php';

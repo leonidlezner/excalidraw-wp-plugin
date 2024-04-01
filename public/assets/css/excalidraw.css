@@ -1,0 +1,9 @@
+.excalidraw-doc svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.excalidraw-doc {
+  margin: 1em 0;
+}

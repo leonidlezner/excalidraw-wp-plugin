@@ -19,8 +19,13 @@ class Excalidraw_Admin
 
   public function enqueue_styles()
   {
+    $file = 'css/excalidraw-admin.css';
+    $filePath = plugin_dir_path(__FILE__) . $file;
+    $fileUrl = plugin_dir_url(__FILE__) . $file;
+    $fileTime = filemtime($filePath);
+
     if (!self::isView('new') && !self::isView('edit')) {
-      wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/excalidraw-admin.css', null);
+      wp_enqueue_style($this->plugin_name, "$fileUrl", [], $fileTime);
     }
   }
 
@@ -61,7 +66,7 @@ class Excalidraw_Admin
 
       if ($handle == $this->plugin_name) {
         $script[] = '<script>';
-        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . plugin_dir_url(__FILE__) . 'excalidraw-editor/dist/";';
+        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . Excalidraw::getPublicAssetsUrl() . '";';
         $script[] = '</script>';
       }
 
@@ -93,6 +98,11 @@ class Excalidraw_Admin
       $docId = $_GET['docId'];
       $doc = $this->getDocumentFromDB($docId);
 
+      if (!$doc) {
+        echo "<p>" . __("Document not found", $this->plugin_name) . "</p>";
+        return;
+      }
+
       $docTitle = $doc->title;
       $docId = $doc->uuid;
       $docSource = $doc->source;
@@ -102,7 +112,7 @@ class Excalidraw_Admin
 
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else if (self::isView('new')) {
-      $docTitle = "New Excalidraw Document";
+      $docTitle = __("New Excalidraw Document", $this->plugin_name);
       $docId = "";
       $docUrl = admin_url('admin.php?page=excalidraw&view=new');
       $docSource = "";
@@ -143,7 +153,7 @@ class Excalidraw_Admin
     $request_body = file_get_contents('php://input');
 
     if (!$request_body) {
-      wp_send_json_error("Wrong data sent to server.");
+      wp_send_json_error(__("Wrong data sent to server.", $this->plugin_name));
     }
 
     $data = json_decode($request_body);
@@ -174,7 +184,7 @@ class Excalidraw_Admin
       $result = $wpdb->update($table_name, $docData, array('uuid' => $docId));
 
       if ($result === false) {
-        wp_send_json_error("Could not update the document.");
+        wp_send_json_error(__("Could not update the document.", $this->plugin_name));
       }
 
       wp_send_json_success([
@@ -183,11 +193,12 @@ class Excalidraw_Admin
     } else {
       $docData['created'] = $currentTime;
       $docData['uuid'] = $docId;
+      $docData['author'] = get_current_user_id();
 
       $results = $wpdb->insert($table_name, $docData);
 
       if (!$results || $results < 1) {
-        wp_send_json_error("Could not create the document.");
+        wp_send_json_error(__("Could not create the document.", $this->plugin_name));
       }
 
       wp_send_json_success([
@@ -195,5 +206,15 @@ class Excalidraw_Admin
         'timeUpdated' => $currentTime,
       ]);
     }
+  }
+
+  public function register_block()
+  {
+    register_block_type(
+      plugin_dir_path(dirname(__FILE__)) . 'admin/excalidraw-block/build',
+      array(
+        'render_callback' => 'render_block_core_notice',
+      )
+    );
   }
 }

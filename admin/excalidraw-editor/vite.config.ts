@@ -10,11 +10,15 @@ export default defineConfig({
       targets: [
         {
           src: "node_modules/@excalidraw/excalidraw/dist/excalidraw-assets/*",
-          dest: "excalidraw-assets",
+          dest: "../../../public/assets/dist/excalidraw-assets",
+        },
+        {
+          src: "node_modules/@excalidraw/excalidraw/dist/excalidraw-assets/*",
+          dest: "../../../public/assets/excalidraw-assets",
         },
         {
           src: "node_modules/@excalidraw/excalidraw/dist/excalidraw-assets-dev/*",
-          dest: "excalidraw-assets-dev",
+          dest: "../../../public/assets/excalidraw-assets-dev",
         },
       ],
     }),

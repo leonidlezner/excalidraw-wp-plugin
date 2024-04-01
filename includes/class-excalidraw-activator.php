@@ -19,6 +19,7 @@ class Excalidraw_Activator
     	`thumbnail` LONGTEXT NOT NULL,
     	`title` TEXT,
     	`description` TEXT,
+      `author` INT NOT NULL,
     	`created` DATETIME NOT NULL,
     	`updated` DATETIME NOT NULL,
     	PRIMARY KEY (`id`)

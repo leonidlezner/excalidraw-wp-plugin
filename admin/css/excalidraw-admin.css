@@ -1,5 +1,6 @@
 .excalidraw-admin-table-item {
   display: flex;
+  align-items: center;
 }
 
 .excalidraw-admin-table-item .preview {
@@ -7,8 +8,9 @@
 }
 
 .excalidraw-admin-table-item .preview img {
-  width: 60px;
+  width: 90px;
   display: block;
+  padding: 3px;
   border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
