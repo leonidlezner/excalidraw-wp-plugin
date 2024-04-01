@@ -6,7 +6,7 @@ class Excalidraw_Deactivator
   {
     global $wpdb;
 
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
     $wpdb->query("DROP TABLE IF EXISTS $table_name");
 

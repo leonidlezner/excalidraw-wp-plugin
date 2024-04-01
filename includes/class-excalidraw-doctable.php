@@ -4,11 +4,14 @@ class Excalidraw_DocTable extends WP_List_Table
 {
   private $plugin_name;
   private $plugin_version;
+  private $delete_nonce;
 
   public function __construct($plugin_name, $plugin_version)
   {
     $this->plugin_name = $plugin_name;
     $this->plugin_version = $plugin_version;
+
+    $this->delete_nonce = wp_create_nonce($this->plugin_name . '_delete');
 
     parent::__construct();
   }
@@ -26,8 +29,9 @@ class Excalidraw_DocTable extends WP_List_Table
   {
     global $wpdb;
 
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
+    // Use this later for sorting etc.
     //$sql = $wpdb->prepare("SELECT * FROM $table_name");
 
     $sql = "SELECT * FROM $table_name";
@@ -39,12 +43,21 @@ class Excalidraw_DocTable extends WP_List_Table
 
   private function render_item($item, $url)
   {
+    $delete_url = admin_url(sprintf('?action=excalidraw_delete&docId=%s&_wpnonce=%s', $item->uuid, $this->delete_nonce));
+
+    $actions = array(
+      'edit'      => sprintf('<a href="%s">' . __('Edit', $this->plugin_name) . '</a>', $url),
+      'delete'    => sprintf('<a href="%s" onclick="return showNotice.warn();">' . __('Delete', $this->plugin_name) . '</a>', $delete_url),
+    );
+
+    $actions = $this->row_actions($actions);
+
     require plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-table-item.php';
   }
 
   public function column_default($item, $column_name)
   {
-    $url = admin_url('admin.php?page=excalidraw&view=edit&docId=' . $item->uuid);
+    $url = admin_url(sprintf('admin.php?page=excalidraw&view=edit&docId=%s', $item->uuid));
     $title = $item->title ? $item->title : $item->uuid;
 
     switch ($column_name) {
@@ -62,6 +75,14 @@ class Excalidraw_DocTable extends WP_List_Table
     }
   }
 
+  function column_cb($item)
+  {
+    return sprintf(
+      '<input type="checkbox" name="element[]" value="%s" />',
+      $item->id
+    );
+  }
+
   public function prepare_items()
   {
     $columns = $this->get_columns();
@@ -72,4 +93,13 @@ class Excalidraw_DocTable extends WP_List_Table
 
     $this->items = $this->get_table_data();
   }
+
+  /*   function get_bulk_actions()
+  {
+    $actions = array(
+      'delete_all'    => __('Delete', $this->plugin_name),
+    );
+
+    return $actions;
+  } */
 }

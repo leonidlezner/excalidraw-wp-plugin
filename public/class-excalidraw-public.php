@@ -25,10 +25,10 @@ class Excalidraw_Public
   {
   }
 
-  private function getDocumentFromDB($docId)
+  private function get_document_from_db($docId)
   {
     global $wpdb;
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
     $sql = $wpdb->prepare("SELECT full FROM $table_name WHERE uuid = %s", $docId);
 
@@ -49,7 +49,7 @@ class Excalidraw_Public
 
     $docId = $atts['docid'];
 
-    $doc = $this->getDocumentFromDB($docId);
+    $doc = $this->get_document_from_db($docId);
 
     if ($doc) {
       return "<div class=\"excalidraw-doc\">" . $doc->full . "</div>";

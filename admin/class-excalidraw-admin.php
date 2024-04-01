@@ -12,7 +12,7 @@ class Excalidraw_Admin
     $this->plugin_version = $plugin_version;
   }
 
-  private static function isView($name)
+  private static function is_view($name)
   {
     return isset($_GET['view']) && $_GET['view'] == $name;
   }
@@ -24,14 +24,14 @@ class Excalidraw_Admin
     $fileUrl = plugin_dir_url(__FILE__) . $file;
     $fileTime = filemtime($filePath);
 
-    if (!self::isView('new') && !self::isView('edit')) {
+    if (!self::is_view('new') && !self::is_view('edit')) {
       wp_enqueue_style($this->plugin_name, "$fileUrl", [], $fileTime);
     }
   }
 
   public function enqueue_scripts()
   {
-    if (self::isView('new') || self::isView('edit')) {
+    if (self::is_view('new') || self::is_view('edit')) {
       if (defined('EXCALIDRAW_DEV') && is_array(wp_remote_get('http://localhost:5173/'))) { // TODO: change this check so something more performant
         wp_enqueue_script('vite', 'http://localhost:5173/@vite/client', [], null);
         wp_enqueue_script($this->plugin_name, 'http://localhost:5173/src/App.tsx', [], null, true);
@@ -66,7 +66,7 @@ class Excalidraw_Admin
 
       if ($handle == $this->plugin_name) {
         $script[] = '<script>';
-        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . Excalidraw::getPublicAssetsUrl() . '";';
+        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . Excalidraw::get_public_assets_url() . '";';
         $script[] = '</script>';
       }
 
@@ -82,7 +82,7 @@ class Excalidraw_Admin
     add_menu_page('Drawings', 'Excalidraw', 'manage_options', 'excalidraw', array($this, 'admin_menu_display'), '', 11);
   }
 
-  private function getUID()
+  private function get_uid()
   {
     return uniqid();
   }
@@ -91,12 +91,12 @@ class Excalidraw_Admin
   {
     $apiURL = admin_url("admin-ajax.php");
     $nonce = wp_create_nonce("excalidraw_save");
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
     $closeUrl = admin_url('admin.php?page=excalidraw');
 
-    if (self::isView('edit')) {
+    if (self::is_view('edit')) {
       $docId = $_GET['docId'];
-      $doc = $this->getDocumentFromDB($docId);
+      $doc = $this->get_document_from_db($docId);
 
       if (!$doc) {
         echo "<p>" . __("Document not found", $this->plugin_name) . "</p>";
@@ -111,7 +111,7 @@ class Excalidraw_Admin
       $docUrl = admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId);
 
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
-    } else if (self::isView('new')) {
+    } else if (self::is_view('new')) {
       $docTitle = __("New Excalidraw Document", $this->plugin_name);
       $docId = "";
       $docUrl = admin_url('admin.php?page=excalidraw&view=new');
@@ -128,10 +128,10 @@ class Excalidraw_Admin
     }
   }
 
-  private function getDocumentFromDB($docId)
+  private function get_document_from_db($docId)
   {
     global $wpdb;
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
     $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE uuid = %s", $docId);
 
@@ -144,11 +144,32 @@ class Excalidraw_Admin
     }
   }
 
-  function admin_ajax_handler_save()
+  public function admin_handler_delete()
   {
     global $wpdb;
 
-    check_ajax_referer("excalidraw_save");
+    $table_name = Excalidraw::get_db_table_name();
+
+    $closeUrl = admin_url('admin.php?page=excalidraw');
+
+    check_admin_referer($this->plugin_name . "_delete");
+
+    $docId = $_GET['docId'];
+
+    $doc = $this->get_document_from_db($docId);
+
+    if ($doc) {
+      $wpdb->delete($table_name, array('uuid' => $docId));
+    }
+
+    wp_redirect($closeUrl);
+  }
+
+  public function admin_ajax_handler_save()
+  {
+    global $wpdb;
+
+    check_ajax_referer($this->plugin_name . "_save");
 
     $request_body = file_get_contents('php://input');
 
@@ -162,12 +183,12 @@ class Excalidraw_Admin
 
     if ($data->docId) {
       $docId = $data->docId;
-      $existingDocument = $this->getDocumentFromDB($docId);
+      $existingDocument = $this->get_document_from_db($docId);
     } else {
-      $docId = $this->getUID();
+      $docId = $this->get_uid();
     }
 
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
     $currentTime = date('Y-m-d H:i:s', time());
 

@@ -4,5 +4,6 @@
   </div>
   <div>
     <h2 class="title"><a href="<?php echo $url; ?>"><?php echo $item->title ? $item->title : $item->uuid; ?></a></h2>
+    <?php echo $actions; ?>
   </div>
 </div>

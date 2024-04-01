@@ -15,28 +15,28 @@ class Excalidraw
     $this->define_public_hooks();
   }
 
-  public static function getDBTableName()
+  public static function get_db_table_name()
   {
     global $wpdb;
     return $wpdb->prefix . self::$plugin_name;
   }
 
-  public static function getDBVersion()
+  public static function get_db_version()
   {
     return self::$db_version;
   }
 
   public function check_and_upgrade_db()
   {
-    $currentVersion = get_option(self::getDBTableName() . '_db_version', 1);
+    $currentVersion = get_option(self::get_db_table_name() . '_db_version', 1);
 
-    if ($currentVersion && ($currentVersion !== self::getDBVersion())) {
+    if ($currentVersion && ($currentVersion !== self::get_db_version())) {
       require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-excalidraw-activator.php';
       Excalidraw_Activator::upgrade();
     }
   }
 
-  public static function getPublicAssetsUrl()
+  public static function get_public_assets_url()
   {
     return EXCALIDRAW_ROOT_URL . 'public/assets/';
   }
@@ -70,6 +70,7 @@ class Excalidraw
     $this->loader->add_action('wp_ajax_excalidraw_save', $plugin_admin, 'admin_ajax_handler_save');
     $this->loader->add_action('init', $plugin_admin, 'register_block');
     $this->loader->add_action('plugins_loaded', $this, 'check_and_upgrade_db');
+    $this->loader->add_action('admin_action_excalidraw_delete', $plugin_admin, 'admin_handler_delete');
   }
 
   private function define_public_hooks()

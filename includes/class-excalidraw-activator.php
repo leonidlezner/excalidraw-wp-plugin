@@ -6,7 +6,7 @@ class Excalidraw_Activator
   {
     global $wpdb;
 
-    $table_name = Excalidraw::getDBTableName();
+    $table_name = Excalidraw::get_db_table_name();
 
     $charset_collate = $wpdb->get_charset_collate();
 
@@ -33,12 +33,12 @@ class Excalidraw_Activator
   public static function activate()
   {
     self::create_database_table();
-    add_option(Excalidraw::getDBTableName() . '_db_version', Excalidraw::getDBVersion());
+    add_option(Excalidraw::get_db_table_name() . '_db_version', Excalidraw::get_db_version());
   }
 
   public static function upgrade()
   {
     self::create_database_table();
-    update_option(Excalidraw::getDBTableName() . '_db_version', Excalidraw::getDBVersion());
+    update_option(Excalidraw::get_db_table_name() . '_db_version', Excalidraw::get_db_version());
   }
 }
