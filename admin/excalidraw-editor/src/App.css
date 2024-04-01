@@ -6,14 +6,26 @@
   margin-top: 10px;
 }
 
-.excalidraw-outer-toolbar * {
+.excalidraw-outer-toolbar .dirty .save-button {
+  position: relative;
+}
+
+.excalidraw-outer-toolbar .dirty .save-button::after {
+  width: 6px;
+  height: 6px;
+  background-color: orange;
+  border: 1px solid white;
+  content: "";
+  position: absolute;
+  left: -4px;
+  bottom: -4px;
+  border-radius: 100%;
 }
 
 .excalidraw-outer-toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /*background-color: rgb(135, 199, 95);*/
 }
 
 .excalidraw-outer-toolbar .toolbar {

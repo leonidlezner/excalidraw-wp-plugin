@@ -4,12 +4,12 @@
 class Excalidraw_Admin
 {
   private $plugin_name;
-  private $version;
+  private $plugin_version;
 
-  public function __construct($plugin_name, $version)
+  public function __construct($plugin_name, $plugin_version)
   {
     $this->plugin_name = $plugin_name;
-    $this->version = $version;
+    $this->plugin_version = $plugin_version;
   }
 
   private static function isView($name)
@@ -19,6 +19,9 @@ class Excalidraw_Admin
 
   public function enqueue_styles()
   {
+    if (!self::isView('new') && !self::isView('edit')) {
+      wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/excalidraw-admin.css', null);
+    }
   }
 
   public function enqueue_scripts()
@@ -83,8 +86,8 @@ class Excalidraw_Admin
   {
     $apiURL = admin_url("admin-ajax.php");
     $nonce = wp_create_nonce("excalidraw_save");
-
     $table_name = Excalidraw::getDBTableName();
+    $closeUrl = admin_url('admin.php?page=excalidraw');
 
     if (self::isView('edit')) {
       $docId = $_GET['docId'];
@@ -106,6 +109,11 @@ class Excalidraw_Admin
 
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else {
+      require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-excalidraw-doctable.php';
+
+      $table = new Excalidraw_DocTable($this->plugin_name, $this->plugin_version);
+      $table->prepare_items();
+
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-list.php';
     }
   }

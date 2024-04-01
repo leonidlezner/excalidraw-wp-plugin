@@ -1,0 +1,18 @@
+.excalidraw-admin-table-item {
+  display: flex;
+}
+
+.excalidraw-admin-table-item .preview {
+  margin-right: 1em;
+}
+
+.excalidraw-admin-table-item .preview img {
+  width: 60px;
+  display: block;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.excalidraw-admin-table-item .title {
+  font-size: 1em;
+  margin: 0;
+}

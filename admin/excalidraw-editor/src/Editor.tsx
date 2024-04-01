@@ -4,6 +4,7 @@ import {
   exportToSvg,
   useHandleLibrary,
   getSceneVersion,
+  exportToCanvas,
 } from "@excalidraw/excalidraw";
 
 import {
@@ -24,6 +25,7 @@ export type EditorDataSet = {
   apiUrl: string;
   nonce: string;
   docUrl: string;
+  closeUrl: string;
 };
 
 interface BackendResponseData {
@@ -52,7 +54,7 @@ function Editor(dataSet: EditorDataSet) {
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
 
-  const saveDocument = () => {
+  const saveDocument = (successCallback: Function | undefined = undefined) => {
     if (!excalidrawAPI) {
       return;
     }
@@ -71,6 +73,15 @@ function Editor(dataSet: EditorDataSet) {
           files: files,
         });
 
+        const thumbnail = await exportToCanvas({
+          elements: elements,
+          appState: appState,
+          files: files,
+          getDimensions: () => {
+            return { width: 350, height: 350 };
+          },
+        });
+
         var s = new XMLSerializer();
 
         const response = await axios.post<BackendResponse>(
@@ -80,7 +91,7 @@ function Editor(dataSet: EditorDataSet) {
             source: jsonData,
             files: JSON.stringify(excalidrawAPI.getFiles()),
             full: s.serializeToString(svg),
-            thumbnail: "abc",
+            thumbnail: thumbnail.toDataURL(),
             title: docTitle,
           },
           {
@@ -120,6 +131,10 @@ function Editor(dataSet: EditorDataSet) {
           if (response.data.data.redirect) {
             window.location.href = response.data.data.redirect;
           }
+        }
+
+        if (successCallback) {
+          successCallback();
         }
       } catch (error) {
         alert("Error occured during saving: " + error);
@@ -307,6 +322,20 @@ function Editor(dataSet: EditorDataSet) {
     }
   };
 
+  const onClose = () => {
+    window.location.href = dataSet.closeUrl;
+  };
+
+  const onSaveAndCloseDocument = () => {
+    saveDocument(() => {
+      onClose();
+    });
+  };
+
+  const onSaveDocument = () => {
+    saveDocument();
+  };
+
   return (
     <div>
       <div className="excalidraw-outer-toolbar">
@@ -317,24 +346,33 @@ function Editor(dataSet: EditorDataSet) {
             className=""
             onChange={onInputUpdate}
           />
-          <div>Doc ID: {dataSet.docId}</div>
         </div>
 
-        <div className="toolbar">
+        <div className={"toolbar" + (isDirty ? " dirty" : "")}>
           <div>{isSaving && <span className="spinner is-active"></span>}</div>
           <div>
             <button
               className="button button-primary save-button"
-              onClick={saveDocument}
+              onClick={onSaveDocument}
               disabled={isSaving}
             >
-              Save{isDirty ? "*" : ""}
+              Save
+            </button>
+          </div>
+          <div>
+            <button
+              className="button button-primary save-button"
+              onClick={onSaveAndCloseDocument}
+              disabled={isSaving}
+            >
+              Save and Close
             </button>
           </div>
           <div>
             <button
               className="button button-secondary"
-              /* ref={uiCloseButtonRef} */ disabled={isSaving}
+              onClick={onClose}
+              disabled={isSaving}
             >
               Close
             </button>

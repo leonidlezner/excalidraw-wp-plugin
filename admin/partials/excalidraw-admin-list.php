@@ -22,7 +22,7 @@
   <hr class="wp-header-end">
 
   <?php
-  if (!empty($message)) {
+  /* if (!empty($message)) {
     wp_admin_notice(
       $message,
       array(
@@ -31,6 +31,8 @@
         'dismissible'        => true,
       )
     );
-  }
+  } */
   ?>
+
+  <?php $table->display(); ?>
 </div>
