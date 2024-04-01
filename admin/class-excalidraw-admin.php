@@ -169,7 +169,9 @@ class Excalidraw_Admin
         wp_send_json_error("Could not update the document.");
       }
 
-      wp_send_json_success();
+      wp_send_json_success([
+        'timeUpdated' => $currentTime,
+      ]);
     } else {
       $docData['created'] = $currentTime;
       $docData['uuid'] = $docId;
@@ -181,7 +183,8 @@ class Excalidraw_Admin
       }
 
       wp_send_json_success([
-        'redirect' => admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId)
+        'redirect' => admin_url('admin.php?page=excalidraw&view=edit&docId=' . $docId),
+        'timeUpdated' => $currentTime,
       ]);
     }
   }

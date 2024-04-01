@@ -26,13 +26,14 @@ export type EditorDataSet = {
   docUrl: string;
 };
 
-interface BackendRedirect {
-  redirect: string;
+interface BackendResponseData {
+  redirect: string | undefined;
+  timeUpdated: string;
 }
 
 interface BackendResponse {
   success: boolean | undefined;
-  data: BackendRedirect | string | undefined;
+  data: BackendResponseData | string | undefined;
 }
 
 function Editor(dataSet: EditorDataSet) {
@@ -93,9 +94,6 @@ function Editor(dataSet: EditorDataSet) {
           }
         );
 
-        // For debugging purposes
-        // await new Promise((resolve) => setTimeout(resolve, 1000));
-
         if (response.data.success === undefined) {
           throw "Wrong data retured from server.";
         }
@@ -104,13 +102,24 @@ function Editor(dataSet: EditorDataSet) {
           throw response.data.data;
         }
 
-        lastSavedVersion.current = getVersion();
-        setIsDirty(false);
-        removeFromLocalStorage();
+        saveToLocalStorage();
 
-        // After saving a new document the server will send an URL to redirect the client
+        lastSavedVersion.current = getVersion();
+
+        setIsDirty(false);
+
         if (typeof response.data.data === "object") {
-          window.location.href = response.data.data.redirect;
+          if (response.data.data.timeUpdated) {
+            window.localStorage.setItem(
+              `lastSaved-${dataSet.docId}`,
+              response.data.data.timeUpdated
+            );
+          }
+
+          // After saving a new document the server will send an URL to redirect the client
+          if (response.data.data.redirect) {
+            window.location.href = response.data.data.redirect;
+          }
         }
       } catch (error) {
         alert("Error occured during saving: " + error);
@@ -158,11 +167,16 @@ function Editor(dataSet: EditorDataSet) {
     );
 
     window.localStorage.setItem(`currentScene-${dataSet.docId}`, jsonData);
+
+    window.localStorage.removeItem(`lastSaved-${dataSet.docId}`);
   };
 
   const isInLocalStorage = () => {
+    const lastSaved = window.localStorage.getItem(`lastSaved-${dataSet.docId}`);
+
     return (
-      window.localStorage.getItem(`currentScene-${dataSet.docId}`) !== null
+      window.localStorage.getItem(`currentScene-${dataSet.docId}`) !== null &&
+      lastSaved === null
     );
   };
 
@@ -171,16 +185,20 @@ function Editor(dataSet: EditorDataSet) {
       `currentScene-${dataSet.docId}`
     );
 
+    const lastSaved = window.localStorage.getItem(`lastSaved-${dataSet.docId}`);
+
     if (jsonData && excalidrawAPI && lastLocalScene.current !== jsonData) {
       const scene = JSON.parse(jsonData);
-
-      console.log("updateScene");
 
       excalidrawAPI.updateScene(scene);
 
       excalidrawAPI.addFiles(
         Object.keys(scene.files).map((key) => scene.files[key])
       );
+
+      if (lastSaved) {
+        lastSavedVersion.current = getVersion();
+      }
     }
 
     lastLocalScene.current = jsonData;
@@ -204,8 +222,6 @@ function Editor(dataSet: EditorDataSet) {
         )
       ) {
         loadFromServer = false;
-        console.log("loadFromLocalStorage after start");
-
         loadFromLocalStorage();
       }
     }
@@ -244,6 +260,8 @@ function Editor(dataSet: EditorDataSet) {
 
       if (version != lastSavedVersion.current) {
         setIsDirty(true);
+      } else {
+        setIsDirty(false);
       }
     };
 
@@ -256,13 +274,11 @@ function Editor(dataSet: EditorDataSet) {
 
     const handleWindowFocus = () => {
       setTimeout(() => {
-        console.log("loadFromLocalStorage on focus");
         loadFromLocalStorage();
       }, 500);
     };
 
     const handleWindowBlur = () => {
-      console.log("saveToLocalStorage on blur");
       saveToLocalStorage();
     };
 
