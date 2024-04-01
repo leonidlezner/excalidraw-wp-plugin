@@ -288,6 +288,10 @@ function Editor(dataSet: EditorDataSet) {
     };
 
     const handleWindowFocus = () => {
+      (
+        document.getElementsByClassName("excalidraw")[0] as HTMLElement
+      )?.focus();
+
       setTimeout(() => {
         loadFromLocalStorage();
       }, 500);
@@ -380,7 +384,7 @@ function Editor(dataSet: EditorDataSet) {
         </div>
       </div>
 
-      <div className="excalidraw-container">
+      <div className="excalidraw-outer-container">
         <Excalidraw
           name={dataSet.docId}
           excalidrawAPI={excalidrawRefCallback}
@@ -389,6 +393,7 @@ function Editor(dataSet: EditorDataSet) {
           }}
           onLibraryChange={onLibChange}
           libraryReturnUrl={dataSet.docUrl}
+          autoFocus={true}
         />
       </div>
     </div>
