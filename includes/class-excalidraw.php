@@ -5,6 +5,7 @@ class Excalidraw
   protected $loader;
   protected static $plugin_name = 'excalidraw';
   protected static $version = EXCALIDRAW_VERSION;
+  protected static $db_version = '2';
 
   public function __construct()
   {
@@ -18,6 +19,21 @@ class Excalidraw
   {
     global $wpdb;
     return $wpdb->prefix . self::$plugin_name;
+  }
+
+  public static function getDBVersion()
+  {
+    return self::$db_version;
+  }
+
+  public function check_and_upgrade_db()
+  {
+    $currentVersion = get_option(self::getDBTableName() . '_db_version', 1);
+
+    if ($currentVersion && ($currentVersion !== self::getDBVersion())) {
+      require_once plugin_dir_path(dirname(__FILE__)) . 'includes/class-excalidraw-activator.php';
+      Excalidraw_Activator::upgrade();
+    }
   }
 
   public static function getPublicAssetsUrl()
@@ -53,6 +69,7 @@ class Excalidraw
     $this->loader->add_action('admin_menu', $plugin_admin, 'admin_menu');
     $this->loader->add_action('wp_ajax_excalidraw_save', $plugin_admin, 'admin_ajax_handler_save');
     $this->loader->add_action('init', $plugin_admin, 'register_block');
+    $this->loader->add_action('plugins_loaded', $this, 'check_and_upgrade_db');
   }
 
   private function define_public_hooks()
@@ -60,7 +77,6 @@ class Excalidraw
     $plugin_public = new Excalidraw_Public($this->get_plugin_name(), $this->get_version());
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-
     $this->loader->add_action('init', $plugin_public, 'add_shortcodes');
   }
 

@@ -175,6 +175,7 @@ class Excalidraw_Admin
       'source' => $data->source,
       'files' => $data->files,
       'full' => $data->full,
+      'full_dark' => $data->full_dark,
       'thumbnail' => $data->thumbnail,
       'title' => $data->title,
       'updated' => $currentTime

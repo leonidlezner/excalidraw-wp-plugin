@@ -16,6 +16,7 @@ class Excalidraw_Activator
     	`source` LONGTEXT NOT NULL,
     	`files` LONGTEXT NOT NULL,
     	`full` LONGTEXT NOT NULL,
+    	`full_dark` LONGTEXT NOT NULL,
     	`thumbnail` LONGTEXT NOT NULL,
     	`title` TEXT,
     	`description` TEXT,
@@ -32,5 +33,12 @@ class Excalidraw_Activator
   public static function activate()
   {
     self::create_database_table();
+    add_option(Excalidraw::getDBTableName() . '_db_version', Excalidraw::getDBVersion());
+  }
+
+  public static function upgrade()
+  {
+    self::create_database_table();
+    update_option(Excalidraw::getDBTableName() . '_db_version', Excalidraw::getDBVersion());
   }
 }

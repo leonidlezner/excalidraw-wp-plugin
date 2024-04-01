@@ -74,6 +74,17 @@ function Editor(dataSet: EditorDataSet) {
           exportPadding: 2,
         });
 
+        const svg_dark = await exportToSvg({
+          elements: elements,
+          appState: {
+            ...appState,
+            exportBackground: false,
+            exportWithDarkMode: true,
+          },
+          files: files,
+          exportPadding: 2,
+        });
+
         const thumbnail = await exportToCanvas({
           elements: elements,
           appState: { ...appState, exportBackground: false },
@@ -90,6 +101,7 @@ function Editor(dataSet: EditorDataSet) {
             source: jsonData,
             files: JSON.stringify(excalidrawAPI.getFiles()),
             full: s.serializeToString(svg),
+            full_dark: s.serializeToString(svg_dark),
             thumbnail: thumbnail.toDataURL(),
             title: docTitle,
           },
