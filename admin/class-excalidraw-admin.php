@@ -247,9 +247,6 @@ class Excalidraw_Admin
   {
     register_block_type(
       plugin_dir_path(dirname(__FILE__)) . 'admin/excalidraw-block/build',
-      array(
-        'render_callback' => 'render_block_core_notice',
-      )
     );
   }
 }

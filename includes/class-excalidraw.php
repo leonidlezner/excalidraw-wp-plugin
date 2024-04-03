@@ -36,6 +36,22 @@ class Excalidraw
     }
   }
 
+  public static function get_document_from_db($docId)
+  {
+    global $wpdb;
+    $table_name = Excalidraw::get_db_table_name();
+
+    $sql = $wpdb->prepare("SELECT full FROM $table_name WHERE uuid = %s", $docId);
+
+    $results = $wpdb->get_results($sql);
+
+    if (count($results) < 1) {
+      return null;
+    } else {
+      return $results[0];
+    }
+  }
+
   public static function get_public_assets_url()
   {
     return EXCALIDRAW_ROOT_URL . 'public/assets/';
@@ -78,7 +94,7 @@ class Excalidraw
     $plugin_public = new Excalidraw_Public($this->get_plugin_name(), $this->get_version());
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
     $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
-    $this->loader->add_action('init', $plugin_public, 'add_shortcodes');
+    /* $this->loader->add_action('init', $plugin_public, 'add_shortcodes'); */
   }
 
   public function run()

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * Plugin Name:       Excalidraw Block
- * Description:       Example block scaffolded with Create Block tool.
+ * Description:       Block for displaying the Excalidraw documents
  * Requires at least: 6.1
  * Requires PHP:      7.0
  * Version:           0.1.0
@@ -13,7 +14,7 @@
  * @package           create-block
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
@@ -24,7 +25,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function excalidraw_block_excalidraw_block_block_init() {
-	register_block_type( __DIR__ . '/build' );
+function excalidraw_block_excalidraw_block_block_init()
+{
+	register_block_type(__DIR__ . '/build');
 }
-add_action( 'init', 'excalidraw_block_excalidraw_block_block_init' );
+add_action('init', 'excalidraw_block_excalidraw_block_block_init');

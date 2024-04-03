@@ -1,12 +1,11 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "create-block/excalidraw-block",
-  "version": "0.1.0",
-  "title": "Excalidraw Block",
+  "name": "excalidraw/excalidraw-block",
+  "version": "0.1.1",
+  "title": "Excalidraw",
   "category": "widgets",
-  "icon": "smiley",
-  "description": "Example block scaffolded with Create Block tool.",
+  "description": "Block for displaying the Excalidraw documents.",
   "example": {},
   "supports": {
     "html": false
@@ -16,5 +15,9 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewScript": "file:./view.js"
+  "attributes": {
+    "docId": {
+      "type": "string"
+    }
+  }
 }

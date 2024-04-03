@@ -1,8 +1,14 @@
 <?php
-/**
- * @see https://github.com/WordPress/gutenberg/blob/trunk/docs/reference-guides/block-api/block-metadata.md#render
- */
+if (!empty($attributes['docId'])) {
+	$doc = Excalidraw::get_document_from_db($attributes['docId']);
+
+	if (!$doc) {
+		return;
+	}
+} else {
+	return;
+}
 ?>
-<p <?php echo get_block_wrapper_attributes(); ?>>
-	<?php esc_html_e( 'Excalidraw Block – hello from a dynamic block!', 'excalidraw-block' ); ?>
-</p>
+<div <?php echo get_block_wrapper_attributes(); ?>>
+	<div class="excalidraw-doc"> <?php echo $doc->full; ?></div>
+</div>

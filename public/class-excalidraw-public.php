@@ -25,22 +25,7 @@ class Excalidraw_Public
   {
   }
 
-  private function get_document_from_db($docId)
-  {
-    global $wpdb;
-    $table_name = Excalidraw::get_db_table_name();
-
-    $sql = $wpdb->prepare("SELECT full FROM $table_name WHERE uuid = %s", $docId);
-
-    $results = $wpdb->get_results($sql);
-
-    if (count($results) < 1) {
-      return null;
-    } else {
-      return $results[0];
-    }
-  }
-
+  /* 
   public function render_shortcode($atts = [], $content = null, $tag = '')
   {
     if (!$atts || !key_exists('docid', $atts) || !$atts['docid']) {
@@ -61,5 +46,5 @@ class Excalidraw_Public
   public function add_shortcodes()
   {
     add_shortcode('excalidraw', array($this, 'render_shortcode'));
-  }
+  } */
 }

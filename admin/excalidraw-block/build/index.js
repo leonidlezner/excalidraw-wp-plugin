@@ -1,1 +1,488 @@
-(()=>{"use strict";var r,e={17:()=>{const r=window.wp.blocks,e=window.React,o=window.wp.i18n,l=window.wp.blockEditor,a=JSON.parse('{"UU":"create-block/excalidraw-block"}');(0,r.registerBlockType)(a.UU,{edit:function(){return(0,e.createElement)("p",{...(0,l.useBlockProps)()},(0,o.__)("Excalidraw Block – hello from the editor!","excalidraw-block"))}})}},o={};function l(r){var a=o[r];if(void 0!==a)return a.exports;var i=o[r]={exports:{}};return e[r](i,i.exports,l),i.exports}l.m=e,r=[],l.O=(e,o,a,i)=>{if(!o){var t=1/0;for(p=0;p<r.length;p++){for(var[o,a,i]=r[p],c=!0,n=0;n<o.length;n++)(!1&i||t>=i)&&Object.keys(l.O).every((r=>l.O[r](o[n])))?o.splice(n--,1):(c=!1,i<t&&(t=i));if(c){r.splice(p--,1);var s=a();void 0!==s&&(e=s)}}return e}i=i||0;for(var p=r.length;p>0&&r[p-1][2]>i;p--)r[p]=r[p-1];r[p]=[o,a,i]},l.o=(r,e)=>Object.prototype.hasOwnProperty.call(r,e),(()=>{var r={57:0,350:0};l.O.j=e=>0===r[e];var e=(e,o)=>{var a,i,[t,c,n]=o,s=0;if(t.some((e=>0!==r[e]))){for(a in c)l.o(c,a)&&(l.m[a]=c[a]);if(n)var p=n(l)}for(e&&e(o);s<t.length;s++)i=t[s],l.o(r,i)&&r[i]&&r[i][0](),r[i]=0;return l.O(p)},o=globalThis.webpackChunkexcalidraw_block=globalThis.webpackChunkexcalidraw_block||[];o.forEach(e.bind(null,0)),o.push=e.bind(null,o.push.bind(o))})();var a=l.O(void 0,[350],(()=>l(17)));a=l.O(a)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/components/DocContainer.js":
+/*!****************************************!*\
+  !*** ./src/components/DocContainer.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ DocContainer)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function DocContainer({
+  docId
+}) {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, docId);
+}
+
+/***/ }),
+
+/***/ "./src/components/Selector.js":
+/*!************************************!*\
+  !*** ./src/components/Selector.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Selector)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function Selector({
+  onSelect
+}) {
+  const handleButton = () => {
+    onSelect("660b2a01e329b");
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selector"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "message"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Please select an Excalidraw drawing", "excalidraw-block")), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "action"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    variant: "primary",
+    onClick: handleButton
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Select document", "excalidraw-block"))));
+}
+
+/***/ }),
+
+/***/ "./src/edit.js":
+/*!*********************!*\
+  !*** ./src/edit.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Edit)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./editor.scss */ "./src/editor.scss");
+/* harmony import */ var _components_Selector__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Selector */ "./src/components/Selector.js");
+/* harmony import */ var _components_DocContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/DocContainer */ "./src/components/DocContainer.js");
+
+/**
+ * Retrieves the translation of text.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ */
+
+
+
+/**
+ * React hook that is used to mark the block wrapper element.
+ * It provides all the necessary props like the class name.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ */
+
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * Those files can contain any CSS code that gets applied to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+
+
+/**
+ * The edit function describes the structure of your block in the context of the
+ * editor. This represents what the editor will render when the block is used.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
+ *
+ * @return {Element} Element to render.
+ */
+function Edit({
+  attributes,
+  setAttributes
+}) {
+  const {
+    docId
+  } = attributes;
+  const handleSelectDocument = selectedDocId => {
+    setAttributes({
+      docId: selectedDocId
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ...(0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)()
+  }, !docId ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Selector__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    onSelect: handleSelectDocument
+  }) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_DocContainer__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    docId: docId
+  }));
+}
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
+/* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/style.scss");
+/* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./edit */ "./src/edit.js");
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./block.json */ "./src/block.json");
+
+/**
+ * Registers a new block provided a unique name and an object defining its behavior.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+
+
+/**
+ * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
+ * All files containing `style` keyword are bundled together. The code used
+ * gets applied both to the front of your site and to the editor.
+ *
+ * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ */
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+/**
+ * Every block starts by registering a new block type definition.
+ *
+ * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
+ */
+(0,_wordpress_blocks__WEBPACK_IMPORTED_MODULE_1__.registerBlockType)(_block_json__WEBPACK_IMPORTED_MODULE_4__.name, {
+  /**
+   * @see ./edit.js
+   */
+  edit: _edit__WEBPACK_IMPORTED_MODULE_3__["default"],
+  icon: {
+    src: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("svg", {
+      "clip-rule": "evenodd",
+      "fill-rule": "evenodd",
+      "stroke-linecap": "round",
+      version: "1.1",
+      viewBox: "0 0 75 74",
+      xmlns: "http://www.w3.org/2000/svg"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m3.756 58.856 13.867 12.64 50.085-46.561 4.279-22.323-24.126 3.549-44.591 51.876 0.486 0.819zm52.647-43.748c2.298 0 4.164 1.866 4.164 4.165 0 2.298-1.866 4.164-4.164 4.164-2.299 0-4.165-1.866-4.165-4.164-0-2.299 1.866-4.165 4.165-4.165z",
+      fill: "#000"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m3.176 57.472c2.92 2.81 6.001 6.547 13.075 13.205m-12.935-12.25c3.897 3.052 8.669 7.179 14.145 12.297m-0.776 0.371c13.358-11.79 26.164-24.118 49.751-45.772m-49.357 45.606c11.592-10.598 21.97-20.751 50.042-45.58m0.675-0.201c0.949-5.689 1.655-12.187 2.979-22.992m-3.984 23.152c1.473-7.822 3.449-15.539 4.07-22.239m0.013-0.011c-4.792 0.298-11.344 1.43-23.397 3.968m23.897-3.78c-7.55-0.044-15.685 1.727-23.779 3.155m-0.325-0.746c-15.752 19.564-30.728 37.783-44.256 52.155m44.719-51.368c-14.997 17.445-29.276 34.148-43.971 51.944",
+      fill: "none",
+      stroke: "#000",
+      "stroke-width": ".22px"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("g", {
+      fill: "#000",
+      stroke: "#000"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m58.282 41.238-14.46 14.154 18.091 16.164 9.824-11.732-14.743-18.077",
+      "stroke-linecap": "butt",
+      "stroke-linejoin": "round",
+      "stroke-miterlimit": "2",
+      "stroke-width": ".11px"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m57.294 41.281c-4.195 4.553-8.959 8.092-13.695 13.294m13.542-12.936c-4.816 5.353-9.916 10.313-13.802 13.127m0.375 0.703c6.17 3.969 11.352 9.94 18.081 14.78m-17.894-15.459c5.886 4.971 13.093 11.234 18.446 15.672m0.41 0.652c2.842-4.553 6.027-8.868 10.086-11.359m-10.597 11.318c3.493-3.298 5.87-6.833 9.875-11.029m0.709-0.742c-5.646-5.577-10.308-10.553-15.094-18.142m14.861 18.295c-3.744-2.866-6.601-6.811-14.831-17.859",
+      "stroke-width": ".22px"
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("g", {
+      fill: "#000",
+      stroke: "#000"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m33.56 17.503-13.503 16.464-11.844-8.76-5.903-22.082 19.397 5.016 10.265 8.722",
+      "stroke-linecap": "butt",
+      "stroke-linejoin": "round",
+      "stroke-miterlimit": "2",
+      "stroke-width": ".11px"
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("path", {
+      d: "m32.6 17.952c-3.755 3.271-5.918 6.741-12.588 15.888m12.989-16.201c-5.144 6.108-10.764 12.174-13.537 16.408m0.207-0.153c-5.247-2.431-9.414-6.662-11.266-8.551m10.578 8.611c-3.86-2.773-8.594-6.951-10.755-8.236m-0.416-0.811c-2.099-7.134-2.791-13.177-5.213-22.004m5.584 22.718c-2.222-7.852-3.951-15.454-5.454-22.621m-0.572-2e-3c6.509 2.603 13.056 2.424 19.52 4.798m-19.404-4.276c7.605 1.807 15.161 2.933 20.534 3.811m0.155 0.724c0.789 1.066 3.888 2.931 10.382 9.875m-10.568-10.414c3.781 3.977 7.43 7.19 10.382 9.808",
+      "stroke-width": ".22px"
+    })))
+  }
+});
+
+/***/ }),
+
+/***/ "./src/editor.scss":
+/*!*************************!*\
+  !*** ./src/editor.scss ***!
+  \*************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/style.scss":
+/*!************************!*\
+  !*** ./src/style.scss ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "react":
+/*!************************!*\
+  !*** external "React" ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = window["React"];
+
+/***/ }),
+
+/***/ "@wordpress/block-editor":
+/*!*************************************!*\
+  !*** external ["wp","blockEditor"] ***!
+  \*************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blockEditor"];
+
+/***/ }),
+
+/***/ "@wordpress/blocks":
+/*!********************************!*\
+  !*** external ["wp","blocks"] ***!
+  \********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["blocks"];
+
+/***/ }),
+
+/***/ "@wordpress/components":
+/*!************************************!*\
+  !*** external ["wp","components"] ***!
+  \************************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["i18n"];
+
+/***/ }),
+
+/***/ "./src/block.json":
+/*!************************!*\
+  !*** ./src/block.json ***!
+  \************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"excalidraw/excalidraw-block","version":"0.1.1","title":"Excalidraw","category":"widgets","description":"Block for displaying the Excalidraw documents.","example":{},"supports":{"html":false},"textdomain":"excalidraw-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","attributes":{"docId":{"type":"string"}}}');
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"index": 0,
+/******/ 			"./style-index": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = globalThis["webpackChunkexcalidraw_block"] = globalThis["webpackChunkexcalidraw_block"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["./style-index"], () => (__webpack_require__("./src/index.js")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=index.js.map

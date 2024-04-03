@@ -1,1 +1,22 @@
-.wp-block-create-block-excalidraw-block{border:1px dotted red}
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-excalidraw-excalidraw-block {
+  border-radius: 2px;
+  background-color: white;
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+}
+.wp-block-excalidraw-excalidraw-block .selector {
+  padding: 2em;
+  text-align: center;
+}
+.wp-block-excalidraw-excalidraw-block .selector .action {
+  margin-top: 1em;
+}
+
+/*# sourceMappingURL=index.css.map*/
