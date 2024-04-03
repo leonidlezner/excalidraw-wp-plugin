@@ -150,6 +150,11 @@ class Excalidraw_Admin
     }
   }
 
+  private function set_message($message, $type = 'success')
+  {
+    set_transient($this->plugin_name . '_message', ['type' => 'success', 'message' => $message]);
+  }
+
   public function admin_handler_delete()
   {
     global $wpdb;
@@ -166,7 +171,7 @@ class Excalidraw_Admin
 
     if ($doc) {
       $wpdb->delete($table_name, array('uuid' => $docId));
-      set_transient($this->plugin_name . '_message', ['type' => 'success', 'message' => sprintf(__("Document '%s' was successfully deleted!"), $doc->title)]);
+      $this->set_message(sprintf(__("Document '%s' was successfully deleted!"), $doc->title), 'success');
     }
 
     wp_redirect($closeUrl);

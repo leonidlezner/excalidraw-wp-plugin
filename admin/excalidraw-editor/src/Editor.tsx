@@ -207,6 +207,10 @@ function Editor(dataSet: EditorDataSet) {
   };
 
   const loadFromLocalStorage = () => {
+    if (!excalidrawAPI) {
+      return;
+    }
+
     const jsonData = window.localStorage.getItem(
       `currentScene-${dataSet.docId}`
     );
@@ -221,6 +225,8 @@ function Editor(dataSet: EditorDataSet) {
       excalidrawAPI.addFiles(
         Object.keys(scene.files).map((key) => scene.files[key])
       );
+
+      excalidrawAPI.scrollToContent();
 
       if (lastSaved) {
         lastSavedVersion.current = getVersion();
@@ -265,6 +271,8 @@ function Editor(dataSet: EditorDataSet) {
           excalidrawAPI.addFiles(
             Object.keys(docFiles).map((key) => docFiles[key])
           );
+
+          excalidrawAPI.scrollToContent();
 
           lastSavedVersion.current = getVersion();
           setIsDirty(false);
