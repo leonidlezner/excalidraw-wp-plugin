@@ -70,7 +70,7 @@ class Excalidraw
     $this->loader->add_action('wp_ajax_excalidraw_save', $plugin_admin, 'admin_ajax_handler_save');
     $this->loader->add_action('init', $plugin_admin, 'register_block');
     $this->loader->add_action('plugins_loaded', $this, 'check_and_upgrade_db');
-    $this->loader->add_action('admin_action_excalidraw_delete', $plugin_admin, 'admin_handler_delete');
+    $this->loader->add_action('admin_post_excalidraw_delete', $plugin_admin, 'admin_handler_delete');
   }
 
   private function define_public_hooks()

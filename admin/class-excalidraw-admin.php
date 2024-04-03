@@ -94,6 +94,12 @@ class Excalidraw_Admin
     $table_name = Excalidraw::get_db_table_name();
     $closeUrl = admin_url('admin.php?page=excalidraw');
 
+    $message = get_transient($this->plugin_name . '_message');
+
+    if ($message !== false) {
+      delete_transient($this->plugin_name . '_message');
+    }
+
     if (self::is_view('edit')) {
       $docId = $_GET['docId'];
       $doc = $this->get_document_from_db($docId);
@@ -160,6 +166,7 @@ class Excalidraw_Admin
 
     if ($doc) {
       $wpdb->delete($table_name, array('uuid' => $docId));
+      set_transient($this->plugin_name . '_message', ['type' => 'success', 'message' => sprintf(__("Document '%s' was successfully deleted!"), $doc->title)]);
     }
 
     wp_redirect($closeUrl);

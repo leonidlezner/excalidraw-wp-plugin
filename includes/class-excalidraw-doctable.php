@@ -43,7 +43,7 @@ class Excalidraw_DocTable extends WP_List_Table
 
   private function render_item($item, $url)
   {
-    $delete_url = admin_url(sprintf('?action=excalidraw_delete&docId=%s&_wpnonce=%s', $item->uuid, $this->delete_nonce));
+    $delete_url = admin_url(sprintf('admin-post.php?action=excalidraw_delete&docId=%s&_wpnonce=%s', $item->uuid, $this->delete_nonce));
 
     $actions = array(
       'edit'      => sprintf('<a href="%s">' . __('Edit', $this->plugin_name) . '</a>', $url),

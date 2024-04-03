@@ -22,16 +22,16 @@
   <hr class="wp-header-end">
 
   <?php
-  /* if (!empty($message)) {
+  if ($message) {
     wp_admin_notice(
-      $message,
+      $message['message'],
       array(
         'id'                 => 'message',
-        'additional_classes' => array('updated'),
         'dismissible'        => true,
+        'type'               => $message['type']
       )
     );
-  } */
+  }
   ?>
 
   <?php $table->display(); ?>
