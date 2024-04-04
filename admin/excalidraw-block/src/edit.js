@@ -1,49 +1,110 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __ } from "@wordpress/i18n";
 
 import { useState } from "react";
 
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import { useBlockProps } from "@wordpress/block-editor";
+import {
+	BlockControls,
+	InspectorControls,
+	useBlockProps,
+} from "@wordpress/block-editor";
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
+import {
+	Modal,
+	ToolbarGroup,
+	Toolbar,
+	ToolbarButton,
+	PanelBody,
+	Popover,
+	TextControl,
+	ToggleControl,
+} from "@wordpress/components";
+
+import { edit, file, update } from "@wordpress/icons";
+
 import "./editor.scss";
-import Selector from "./components/Selector";
+import Selector from "./components/Placeholder";
 import DocContainer from "./components/DocContainer";
+import Gallery from "./components/Gallery";
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#edit
- *
- * @return {Element} Element to render.
- */
 export default function Edit({ attributes, setAttributes }) {
 	const { docId } = attributes;
 
-	const handleSelectDocument = (selectedDocId) => {
+	const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+
+	const handleSelectDocument = () => {
+		setIsGalleryVisible(true);
+	};
+
+	const handleEdit = () => {
+		window
+			.open(window.EXCALIDRAW_BLOCK_DATA.editDocUrl + docId, "_blank")
+			.focus();
+	};
+
+	const handleDocumentSelected = (doc) => {
 		setAttributes({
-			docId: selectedDocId,
+			docId: doc.uuid,
 		});
+
+		setIsGalleryVisible(false);
 	};
 
 	return (
 		<div {...useBlockProps()}>
+			{/* <InspectorControls>
+				<PanelBody title={__("Document", "excalidraw-block")}>
+
+				</PanelBody>
+			</InspectorControls> */}
+
+			<BlockControls>
+				{docId !== undefined && (
+					<ToolbarGroup>
+						<Toolbar>
+							<ToolbarButton
+								icon={update}
+								label={__("Reload", "excalidraw-block")}
+								onClick={() => {}}
+							>
+								{__("Reload", "excalidraw-block")}
+							</ToolbarButton>
+						</Toolbar>
+						<Toolbar>
+							<ToolbarButton
+								icon={edit}
+								label={__("Edit", "excalidraw-block")}
+								onClick={handleEdit}
+							>
+								{__("Edit", "excalidraw-block")}
+							</ToolbarButton>
+						</Toolbar>
+					</ToolbarGroup>
+				)}
+				<ToolbarGroup>
+					<Toolbar>
+						<ToolbarButton
+							label={__("Replace", "excalidraw-block")}
+							onClick={handleSelectDocument}
+							icon={file}
+						>
+							{docId
+								? __("Replace", "excalidraw-block")
+								: __("Select", "excalidraw-block")}
+						</ToolbarButton>
+					</Toolbar>
+				</ToolbarGroup>
+			</BlockControls>
+
+			{isGalleryVisible && (
+				<Modal onRequestClose={() => setIsGalleryVisible(false)}>
+					<Gallery
+						onSelect={handleDocumentSelected}
+						onClose={() => setIsGalleryVisible(false)}
+						currentDocId={docId}
+					/>
+				</Modal>
+			)}
+
 			{!docId ? (
 				<Selector onSelect={handleSelectDocument} />
 			) : (

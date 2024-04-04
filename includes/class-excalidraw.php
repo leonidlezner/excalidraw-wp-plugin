@@ -87,6 +87,7 @@ class Excalidraw
     $this->loader->add_action('init', $plugin_admin, 'register_block');
     $this->loader->add_action('plugins_loaded', $this, 'check_and_upgrade_db');
     $this->loader->add_action('admin_post_excalidraw_delete', $plugin_admin, 'admin_handler_delete');
+    $this->loader->add_action('rest_api_init', $plugin_admin, 'admin_register_rest_api');
   }
 
   private function define_public_hooks()

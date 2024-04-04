@@ -1,5 +1,9 @@
 import { __ } from "@wordpress/i18n";
 
 export default function DocContainer({ docId }) {
-	return <div>{docId}</div>;
+	return (
+		<div>
+			<div>{docId}</div>
+		</div>
+	);
 }

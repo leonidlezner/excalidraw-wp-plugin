@@ -45,33 +45,42 @@ class Excalidraw_Admin
           wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'excalidraw-editor/dist/' . $manifest['src/App.css']['file'], [], null);
         }
       }
+    } else {
+      wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/script.js', array(), "1.0", true);
+
+      wp_add_inline_script($this->plugin_name, 'window.EXCALIDRAW_BLOCK_DATA = ' . json_encode(array(
+        'newDocUrl' => admin_url('admin.php?page=excalidraw&view=new'),
+        'editDocUrl' => admin_url('admin.php?page=excalidraw&view=edit&docId='),
+      )), 'before');
     }
   }
 
   public function script_loader_tag(string $tag, string $handle, string $src)
   {
-    if (in_array($handle, ['vite', $this->plugin_name])) {
-      $script = [];
+    if (self::is_view('new') || self::is_view('edit')) {
+      if (in_array($handle, ['vite', $this->plugin_name])) {
+        $script = [];
 
-      if ($handle == 'vite') {
-        // Add this script according to the Vite docs: https://vitejs.dev/guide/backend-integration.html
-        $script[] = '<script type="module">';
-        $script[] = '  import RefreshRuntime from \'http://localhost:5173/@react-refresh\'';
-        $script[] = '  RefreshRuntime.injectIntoGlobalHook(window)';
-        $script[] = '  window.$RefreshReg$ = () => {}';
-        $script[] = '  window.$RefreshSig$ = () => (type) => type';
-        $script[] = '  window.__vite_plugin_react_preamble_installed__ = true';
-        $script[] = '</script>';
+        if ($handle == 'vite') {
+          // Add this script according to the Vite docs: https://vitejs.dev/guide/backend-integration.html
+          $script[] = '<script type="module">';
+          $script[] = '  import RefreshRuntime from \'http://localhost:5173/@react-refresh\'';
+          $script[] = '  RefreshRuntime.injectIntoGlobalHook(window)';
+          $script[] = '  window.$RefreshReg$ = () => {}';
+          $script[] = '  window.$RefreshSig$ = () => (type) => type';
+          $script[] = '  window.__vite_plugin_react_preamble_installed__ = true';
+          $script[] = '</script>';
+        }
+
+        if ($handle == $this->plugin_name) {
+          $script[] = '<script>';
+          $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . Excalidraw::get_public_assets_url() . '";';
+          $script[] = '</script>';
+        }
+
+        $script[] = '<script type="module" src="' . esc_url($src) . '" defer></script>';
+        return join("\n", $script);
       }
-
-      if ($handle == $this->plugin_name) {
-        $script[] = '<script>';
-        $script[] = 'window.EXCALIDRAW_ASSET_PATH = "' . Excalidraw::get_public_assets_url() . '";';
-        $script[] = '</script>';
-      }
-
-      $script[] = '<script type="module" src="' . esc_url($src) . '" defer></script>';
-      return join("\n", $script);
     }
 
     return $tag;
@@ -248,5 +257,29 @@ class Excalidraw_Admin
     register_block_type(
       plugin_dir_path(dirname(__FILE__)) . 'admin/excalidraw-block/build',
     );
+  }
+
+  public function admin_register_rest_api()
+  {
+    register_rest_route('wp/v1', '/excalidraw/docs', array(
+      'methods' => 'GET',
+      'callback' => array($this, 'get_excalidraw_docs'),
+      'permission_callback' => function () {
+        return current_user_can("manage_options");
+      }
+    ));
+  }
+
+  public function get_excalidraw_docs()
+  {
+    global $wpdb;
+
+    $table_name = Excalidraw::get_db_table_name();
+
+    $sql = "SELECT uuid, title, thumbnail FROM $table_name";
+
+    $results = $wpdb->get_results($sql);
+
+    return json_encode($results);
   }
 }

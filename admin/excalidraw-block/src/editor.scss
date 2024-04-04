@@ -7,7 +7,7 @@
 .wp-block-excalidraw-excalidraw-block {
 	border-radius: 2px;
 	background-color: white;
-  box-shadow: inset 0 0 0 1px #1e1e1e;
+	box-shadow: inset 0 0 0 1px #1e1e1e;
 
 	.selector {
 		padding: 2em;
@@ -19,4 +19,64 @@
 	}
 }
 
+.excalidraw-block-gallery {
+	.spinner-container {
+		text-align: center;
+	}
 
+	.not-found {
+		text-align: center;
+
+		div {
+			padding-top: 1em;
+			padding-bottom: 3em;
+		}
+	}
+
+	.gallery-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 200px [col-start]);
+		gap: 5px;
+
+		a {
+			text-decoration: none;
+
+			&:hover {
+				background: #e3e3e3;
+			}
+		}
+
+		.thumbnail {
+			padding: 10px;
+			box-shadow:
+				inset 0 0 15px rgba(0, 0, 0, 0.1),
+				inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+			display: flex;
+			flex-direction: column;
+
+			text-align: center;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+
+			.image {
+				display: inline-grid;
+				justify-content: center;
+				align-content: center;
+				flex: 1;
+			}
+
+			.title {
+				padding-top: 5px;
+			}
+		}
+
+		.current-thumbnail {
+			box-shadow:
+				inset 0 0 15px rgba(0, 0, 0, 0.1),
+				inset 0 0 0 2px rgba(17, 78, 193, 0.8);
+		}
+	}
+}
