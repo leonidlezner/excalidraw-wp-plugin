@@ -30,8 +30,6 @@ export default function Gallery({ onSelect, onClose, currentDocId }) {
 				}
 			}
 
-			//await new Promise((resolve) => setTimeout(resolve, 1000));
-
 			setIsLoading(false);
 		};
 
