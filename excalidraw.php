@@ -2,7 +2,7 @@
 /*
  * Plugin Name:     Excalidraw
  * Description:     Plugin for editing and displaying Excalidraw diagrams
- * Version:         0.0.1
+ * Version:         0.0.2
  * Author:          Leonid Lezner
  * License:         GPLv2
  */
