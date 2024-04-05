@@ -11,6 +11,14 @@ export default function Selector({ onSelect }) {
 				<Button variant="primary" onClick={onSelect}>
 					{__("Select document", "excalidraw-block")}
 				</Button>
+				<Button
+					variant="secondary"
+					onClick={() => {
+						window.open(window.EXCALIDRAW_BLOCK_DATA.newDocUrl, "_blank");
+					}}
+				>
+					{__("Create new drawing", "excalidraw-block")}
+				</Button>
 			</div>
 		</div>
 	);
