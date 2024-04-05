@@ -128,7 +128,7 @@ class Excalidraw_Admin
 
       require_once plugin_dir_path(dirname(__FILE__)) . 'admin/partials/excalidraw-admin-edit.php';
     } else if (self::is_view('new')) {
-      $docTitle = __("New Excalidraw Document", $this->plugin_name);
+      $docTitle = __("Drawing " . date('Y-m-d H.i.s', time()), $this->plugin_name);
       $docId = "";
       $docUrl = admin_url('admin.php?page=excalidraw&view=new');
       $docSource = "";
