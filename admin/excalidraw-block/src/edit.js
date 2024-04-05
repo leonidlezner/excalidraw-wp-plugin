@@ -186,7 +186,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 					alignment={alignment}
 					onSetWidth={(newVal) =>
 						setAttributes({
-							width: newVal,
+							width: Math.round(newVal),
 						})
 					}
 				/>

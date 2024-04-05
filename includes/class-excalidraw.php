@@ -41,7 +41,7 @@ class Excalidraw
     global $wpdb;
     $table_name = Excalidraw::get_db_table_name();
 
-    $sql = $wpdb->prepare("SELECT full FROM $table_name WHERE uuid = %s", $docId);
+    $sql = $wpdb->prepare("SELECT * FROM $table_name WHERE uuid = %s", $docId);
 
     $results = $wpdb->get_results($sql);
 

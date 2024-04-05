@@ -1,1 +1,86 @@
-.wp-block-excalidraw-excalidraw-block{background-color:#fff;border-radius:2px;box-shadow:inset 0 0 0 1px #1e1e1e}.wp-block-excalidraw-excalidraw-block .selector{padding:2em;text-align:center}.wp-block-excalidraw-excalidraw-block .selector .action{margin-top:1em}.wp-block-excalidraw-excalidraw-block .doc-container .doc{display:flex}.wp-block-excalidraw-excalidraw-block .doc-container .doc .content{padding:.5em}.wp-block-excalidraw-excalidraw-block .doc-container .doc svg{display:block;height:auto;width:100%}.wp-block-excalidraw-excalidraw-block .doc-container .title{font-size:.8em;padding:.5em;text-align:center}.spinner-container{padding-bottom:1em;padding-top:1em;text-align:center}.excalidraw-block-gallery .not-found{text-align:center}.excalidraw-block-gallery .not-found div{padding-bottom:3em;padding-top:1em}.excalidraw-block-gallery .gallery-grid{display:grid;gap:5px;grid-template-columns:repeat(4,200px [col-start])}.excalidraw-block-gallery .gallery-grid a{text-decoration:none}.excalidraw-block-gallery .gallery-grid a:hover{background:#e3e3e3}.excalidraw-block-gallery .gallery-grid .thumbnail{box-shadow:inset 0 0 15px rgba(0,0,0,.1),inset 0 0 0 1px rgba(0,0,0,.05);display:flex;flex-direction:column;padding:10px;text-align:center}.excalidraw-block-gallery .gallery-grid .thumbnail img{height:auto;width:100%}.excalidraw-block-gallery .gallery-grid .thumbnail .image{align-content:center;display:inline-grid;flex:1;justify-content:center}.excalidraw-block-gallery .gallery-grid .thumbnail .title{padding-top:5px}.excalidraw-block-gallery .gallery-grid .current-thumbnail{box-shadow:inset 0 0 15px rgba(0,0,0,.1),inset 0 0 0 2px rgba(17,78,193,.8)}
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/editor.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-excalidraw-excalidraw-block {
+  border-radius: 2px;
+  background-color: white;
+  box-shadow: inset 0 0 0 1px #1e1e1e;
+}
+.wp-block-excalidraw-excalidraw-block .selector {
+  padding: 2em;
+  text-align: center;
+}
+.wp-block-excalidraw-excalidraw-block .selector .action {
+  margin-top: 1em;
+}
+.wp-block-excalidraw-excalidraw-block .doc-container .doc {
+  display: flex;
+}
+.wp-block-excalidraw-excalidraw-block .doc-container .doc .content {
+  padding: 0.5em;
+}
+.wp-block-excalidraw-excalidraw-block .doc-container .doc svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.wp-block-excalidraw-excalidraw-block .doc-container .title {
+  padding: 0.5em;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.spinner-container {
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+.excalidraw-block-gallery .not-found {
+  text-align: center;
+}
+.excalidraw-block-gallery .not-found div {
+  padding-top: 1em;
+  padding-bottom: 3em;
+}
+.excalidraw-block-gallery .gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 200px [col-start]);
+  gap: 5px;
+}
+.excalidraw-block-gallery .gallery-grid a {
+  text-decoration: none;
+}
+.excalidraw-block-gallery .gallery-grid a:hover {
+  background: #e3e3e3;
+}
+.excalidraw-block-gallery .gallery-grid .thumbnail {
+  padding: 10px;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.excalidraw-block-gallery .gallery-grid .thumbnail img {
+  width: 100%;
+  height: auto;
+}
+.excalidraw-block-gallery .gallery-grid .thumbnail .image {
+  display: inline-grid;
+  justify-content: center;
+  align-content: center;
+  flex: 1;
+}
+.excalidraw-block-gallery .gallery-grid .thumbnail .title {
+  padding-top: 5px;
+}
+.excalidraw-block-gallery .gallery-grid .current-thumbnail {
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.1), inset 0 0 0 2px rgba(17, 78, 193, 0.8);
+}
+
+/*# sourceMappingURL=index.css.map*/

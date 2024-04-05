@@ -6,4 +6,9 @@
 
 .excalidraw-doc {
   margin: 1em 0;
+  display: inline-block;
+}
+
+.excalidraw-doc-title {
+  text-align: center;
 }

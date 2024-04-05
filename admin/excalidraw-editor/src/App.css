@@ -42,3 +42,12 @@
   padding-left: 2em;
   padding-right: 2em;
 }
+
+.title {
+  flex: 1;
+}
+
+.title input {
+  width: 70%;
+  padding: 3px;
+}

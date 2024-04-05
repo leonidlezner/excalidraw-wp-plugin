@@ -362,7 +362,7 @@ function Editor(dataSet: EditorDataSet) {
   return (
     <div>
       <div className="excalidraw-outer-toolbar">
-        <div className="">
+        <div className="title">
           <input name="docTitle" value={docTitle} onChange={onInputUpdate} />
         </div>
 
