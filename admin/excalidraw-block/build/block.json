@@ -18,6 +18,10 @@
   "attributes": {
     "docId": {
       "type": "string"
+    },
+    "showTitle": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
 	BlockControls,
@@ -15,6 +15,7 @@ import {
 	ToolbarButton,
 	PanelBody,
 	Popover,
+	Spinner,
 	TextControl,
 	ToggleControl,
 } from "@wordpress/components";
@@ -25,10 +26,12 @@ import "./editor.scss";
 import Selector from "./components/Placeholder";
 import DocContainer from "./components/DocContainer";
 import Gallery from "./components/Gallery";
+import apiFetch from "@wordpress/api-fetch";
 
 export default function Edit({ attributes, setAttributes }) {
-	const { docId } = attributes;
-
+	const { docId, showTitle } = attributes;
+	const [isLoading, setIsLoading] = useState(true);
+	const [doc, setDoc] = useState(null);
 	const [isGalleryVisible, setIsGalleryVisible] = useState(false);
 
 	const handleSelectDocument = () => {
@@ -49,13 +52,60 @@ export default function Edit({ attributes, setAttributes }) {
 		setIsGalleryVisible(false);
 	};
 
+	const abortController =
+		typeof AbortController === "undefined" ? undefined : new AbortController();
+
+	const laodDoc = () => {
+		const _loadDoc = async () => {
+			try {
+				//await new Promise((resolve) => setTimeout(resolve, 1000));
+
+				const data = await apiFetch({
+					path: "/wp/v1/excalidraw/docs/" + docId,
+					signal: abortController?.signal,
+				});
+
+				const fetchedDoc = JSON.parse(data);
+
+				setDoc(fetchedDoc);
+			} catch (error) {
+				if (error.name !== "AbortError") {
+					console.error(error);
+				}
+			}
+
+			setIsLoading(false);
+		};
+
+		if (docId) {
+			setIsLoading(true);
+			_loadDoc();
+		}
+	};
+
+	useEffect(() => {
+		laodDoc();
+
+		return () => {
+			abortController.abort();
+		};
+	}, [docId]);
+
 	return (
 		<div {...useBlockProps()}>
-			{/* <InspectorControls>
+			<InspectorControls>
 				<PanelBody title={__("Document", "excalidraw-block")}>
-
+					<ToggleControl
+						label={__("Show Title", "excalidraw-block")}
+						checked={showTitle}
+						onChange={(isChecked) =>
+							setAttributes({
+								showTitle: isChecked,
+							})
+						}
+					/>
 				</PanelBody>
-			</InspectorControls> */}
+			</InspectorControls>
 
 			<BlockControls>
 				{docId !== undefined && (
@@ -64,7 +114,9 @@ export default function Edit({ attributes, setAttributes }) {
 							<ToolbarButton
 								icon={update}
 								label={__("Reload", "excalidraw-block")}
-								onClick={() => {}}
+								onClick={() => {
+									laodDoc();
+								}}
 							>
 								{__("Reload", "excalidraw-block")}
 							</ToolbarButton>
@@ -107,8 +159,17 @@ export default function Edit({ attributes, setAttributes }) {
 
 			{!docId ? (
 				<Selector onSelect={handleSelectDocument} />
+			) : isLoading ? (
+				<div className="spinner-container">
+					<Spinner
+						style={{
+							height: "calc(4px * 10)",
+							width: "calc(4px * 10)",
+						}}
+					/>
+				</div>
 			) : (
-				<DocContainer docId={docId} />
+				<DocContainer doc={doc} showTitle={showTitle} />
 			)}
 		</div>
 	);

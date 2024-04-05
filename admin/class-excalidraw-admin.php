@@ -268,17 +268,35 @@ class Excalidraw_Admin
         return current_user_can("manage_options");
       }
     ));
+
+    register_rest_route('wp/v1', '/excalidraw/docs/(?P<docId>[a-z0-9]*)', array(
+      'methods' => 'GET',
+      'callback' => array($this, 'get_excalidraw_docs'),
+      'permission_callback' => function () {
+        return current_user_can("manage_options");
+      }
+    ));
   }
 
-  public function get_excalidraw_docs()
+  public function get_excalidraw_docs(WP_REST_Request $data)
   {
+    $params = $data->get_url_params();
+
     global $wpdb;
 
     $table_name = Excalidraw::get_db_table_name();
 
-    $sql = "SELECT uuid, title, thumbnail FROM $table_name";
+    $sql = "SELECT uuid, title, thumbnail, full, full_dark FROM $table_name";
+
+    if (key_exists('docId', $params)) {
+      $sql = $wpdb->prepare($sql . " WHERE uuid = '%s'", $params['docId']);
+    }
 
     $results = $wpdb->get_results($sql);
+
+    if (count($results) > 0 && key_exists('docId', $params)) {
+      $results = $results[0];
+    }
 
     return json_encode($results);
   }

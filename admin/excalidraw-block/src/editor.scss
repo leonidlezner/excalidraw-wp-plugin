@@ -17,13 +17,30 @@
 			margin-top: 1em;
 		}
 	}
+
+	.doc-container {
+		padding: 0.5em;
+
+		.doc svg {
+			width: 100%;
+			height: auto;
+			display: block;
+		}
+
+		.title {
+			padding-top: 1em;
+			text-align: center;
+		}
+	}
+}
+
+.spinner-container {
+	text-align: center;
+	padding-top: 1em;
+	padding-bottom: 1em;
 }
 
 .excalidraw-block-gallery {
-	.spinner-container {
-		text-align: center;
-	}
-
 	.not-found {
 		text-align: center;
 
