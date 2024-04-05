@@ -129,20 +129,57 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+
+
 
 
 function DocContainer({
   doc,
-  showTitle
+  showTitle,
+  width,
+  onSetWidth,
+  resizeControls,
+  alignment
 }) {
+  const containerRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
+  const handleResizeStop = (event, direction, elt, delta) => {
+    if (containerRef.current) {
+      const newRelaiveWidth = elt.offsetWidth / containerRef.current.offsetWidth * 100;
+      onSetWidth(newRelaiveWidth);
+    }
+  };
+  const DocWidget = () => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "content",
+      dangerouslySetInnerHTML: {
+        __html: doc.full
+      }
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "doc-container"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "doc",
-    dangerouslySetInnerHTML: {
-      __html: doc.full
+    ref: containerRef,
+    style: {
+      justifyContent: alignment
     }
-  }), showTitle && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, resizeControls ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ResizableBox, {
+    minWidth: "20%",
+    maxWidth: "100%",
+    lockAspectRatio: true,
+    onResizeStop: handleResizeStop
+    /* bounds="parent" */,
+    size: {
+      width: width + "%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(DocWidget, null)) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    style: {
+      width: width + "%"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(DocWidget, null))), showTitle && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "title"
   }, doc.title));
 }
@@ -343,11 +380,14 @@ __webpack_require__.r(__webpack_exports__);
 
 function Edit({
   attributes,
-  setAttributes
+  setAttributes,
+  isSelected
 }) {
   const {
     docId,
-    showTitle
+    showTitle,
+    width,
+    alignment
   } = attributes;
   const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [doc, setDoc] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
@@ -404,7 +444,12 @@ function Edit({
     onChange: isChecked => setAttributes({
       showTitle: isChecked
     })
-  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, docId !== undefined && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Toolbar, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
+  }))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.BlockControls, null, docId !== undefined && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.AlignmentToolbar, {
+    value: alignment,
+    onChange: newVal => setAttributes({
+      alignment: newVal
+    })
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Toolbar, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
     icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_9__["default"],
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Reload", "excalidraw-block"),
     onClick: () => {
@@ -414,7 +459,7 @@ function Edit({
     icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_10__["default"],
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit", "excalidraw-block"),
     onClick: handleEdit
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit", "excalidraw-block")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Toolbar, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Edit", "excalidraw-block"))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarGroup, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.Toolbar, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.ToolbarButton, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)("Replace", "excalidraw-block"),
     onClick: handleSelectDocument,
     icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_11__["default"]
@@ -435,7 +480,13 @@ function Edit({
     }
   })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_DocContainer__WEBPACK_IMPORTED_MODULE_6__["default"], {
     doc: doc,
-    showTitle: showTitle
+    resizeControls: isSelected,
+    showTitle: showTitle,
+    width: width,
+    alignment: alignment,
+    onSetWidth: newVal => setAttributes({
+      width: newVal
+    })
   }));
 }
 
@@ -634,7 +685,7 @@ module.exports = window["wp"]["primitives"];
   \************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"excalidraw/excalidraw-block","version":"0.1.1","title":"Excalidraw","category":"widgets","description":"Block for displaying the Excalidraw documents.","example":{},"supports":{"html":false},"textdomain":"excalidraw-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","attributes":{"docId":{"type":"string"},"showTitle":{"type":"boolean","default":true}}}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"excalidraw/excalidraw-block","version":"0.1.1","title":"Excalidraw","category":"widgets","description":"Block for displaying the Excalidraw documents.","example":{},"supports":{"html":false},"textdomain":"excalidraw-block","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","attributes":{"docId":{"type":"string"},"showTitle":{"type":"boolean","default":true},"width":{"type":"integer","default":100},"alignment":{"type":"string","default":"left"}}}');
 
 /***/ })
 

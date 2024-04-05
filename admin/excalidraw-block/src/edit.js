@@ -6,6 +6,7 @@ import {
 	BlockControls,
 	InspectorControls,
 	useBlockProps,
+	AlignmentToolbar,
 } from "@wordpress/block-editor";
 
 import {
@@ -28,8 +29,8 @@ import DocContainer from "./components/DocContainer";
 import Gallery from "./components/Gallery";
 import apiFetch from "@wordpress/api-fetch";
 
-export default function Edit({ attributes, setAttributes }) {
-	const { docId, showTitle } = attributes;
+export default function Edit({ attributes, setAttributes, isSelected }) {
+	const { docId, showTitle, width, alignment } = attributes;
 	const [isLoading, setIsLoading] = useState(true);
 	const [doc, setDoc] = useState(null);
 	const [isGalleryVisible, setIsGalleryVisible] = useState(false);
@@ -109,28 +110,36 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<BlockControls>
 				{docId !== undefined && (
-					<ToolbarGroup>
-						<Toolbar>
-							<ToolbarButton
-								icon={update}
-								label={__("Reload", "excalidraw-block")}
-								onClick={() => {
-									laodDoc();
-								}}
-							>
-								{__("Reload", "excalidraw-block")}
-							</ToolbarButton>
-						</Toolbar>
-						<Toolbar>
-							<ToolbarButton
-								icon={edit}
-								label={__("Edit", "excalidraw-block")}
-								onClick={handleEdit}
-							>
-								{__("Edit", "excalidraw-block")}
-							</ToolbarButton>
-						</Toolbar>
-					</ToolbarGroup>
+					<>
+						<ToolbarGroup>
+							<AlignmentToolbar
+								value={alignment}
+								onChange={(newVal) => setAttributes({ alignment: newVal })}
+							/>
+						</ToolbarGroup>
+						<ToolbarGroup>
+							<Toolbar>
+								<ToolbarButton
+									icon={update}
+									label={__("Reload", "excalidraw-block")}
+									onClick={() => {
+										laodDoc();
+									}}
+								>
+									{__("Reload", "excalidraw-block")}
+								</ToolbarButton>
+							</Toolbar>
+							<Toolbar>
+								<ToolbarButton
+									icon={edit}
+									label={__("Edit", "excalidraw-block")}
+									onClick={handleEdit}
+								>
+									{__("Edit", "excalidraw-block")}
+								</ToolbarButton>
+							</Toolbar>
+						</ToolbarGroup>
+					</>
 				)}
 				<ToolbarGroup>
 					<Toolbar>
@@ -169,7 +178,18 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</div>
 			) : (
-				<DocContainer doc={doc} showTitle={showTitle} />
+				<DocContainer
+					doc={doc}
+					resizeControls={isSelected}
+					showTitle={showTitle}
+					width={width}
+					alignment={alignment}
+					onSetWidth={(newVal) =>
+						setAttributes({
+							width: newVal,
+						})
+					}
+				/>
 			)}
 		</div>
 	);

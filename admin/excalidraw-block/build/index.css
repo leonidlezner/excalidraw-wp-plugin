@@ -18,7 +18,10 @@
 .wp-block-excalidraw-excalidraw-block .selector .action {
   margin-top: 1em;
 }
-.wp-block-excalidraw-excalidraw-block .doc-container {
+.wp-block-excalidraw-excalidraw-block .doc-container .doc {
+  display: flex;
+}
+.wp-block-excalidraw-excalidraw-block .doc-container .doc .content {
   padding: 0.5em;
 }
 .wp-block-excalidraw-excalidraw-block .doc-container .doc svg {
@@ -27,8 +30,9 @@
   display: block;
 }
 .wp-block-excalidraw-excalidraw-block .doc-container .title {
-  padding-top: 1em;
+  padding: 0.5em;
   text-align: center;
+  font-size: 0.8em;
 }
 
 .spinner-container {

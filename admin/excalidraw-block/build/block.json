@@ -22,6 +22,14 @@
     "showTitle": {
       "type": "boolean",
       "default": true
+    },
+    "width": {
+      "type": "integer",
+      "default": 100
+    },
+    "alignment": {
+      "type": "string",
+      "default": "left"
     }
   }
 }

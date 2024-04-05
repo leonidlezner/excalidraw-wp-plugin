@@ -19,7 +19,13 @@
 	}
 
 	.doc-container {
-		padding: 0.5em;
+		.doc {
+			display: flex;
+		}
+
+		.doc .content {
+			padding: 0.5em;
+		}
 
 		.doc svg {
 			width: 100%;
@@ -28,8 +34,9 @@
 		}
 
 		.title {
-			padding-top: 1em;
+			padding: 0.5em;
 			text-align: center;
+			font-size: 0.8em;
 		}
 	}
 }
