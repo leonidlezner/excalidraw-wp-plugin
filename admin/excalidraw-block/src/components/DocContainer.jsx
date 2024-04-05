@@ -43,7 +43,6 @@ export default function DocContainer({
 						maxWidth="100%"
 						lockAspectRatio={true}
 						onResizeStop={handleResizeStop}
-						/* bounds="parent" */
 						size={{ width: width + "%" }}
 					>
 						<DocWidget />

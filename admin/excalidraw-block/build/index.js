@@ -170,8 +170,7 @@ function DocContainer({
     minWidth: "20%",
     maxWidth: "100%",
     lockAspectRatio: true,
-    onResizeStop: handleResizeStop
-    /* bounds="parent" */,
+    onResizeStop: handleResizeStop,
     size: {
       width: width + "%"
     }
