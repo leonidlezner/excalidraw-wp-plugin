@@ -32,21 +32,28 @@ class Excalidraw_Admin
   public function enqueue_scripts()
   {
     if (self::is_view('new') || self::is_view('edit')) {
+      // For development purposes Vite's server is used for delivering the compiled JS and CSS
       if (defined('EXCALIDRAW_DEV') && is_array(wp_remote_get('http://localhost:5173/'))) { // TODO: change this check so something more performant
         wp_enqueue_script('vite', 'http://localhost:5173/@vite/client', [], null);
+
         wp_enqueue_script($this->plugin_name, 'http://localhost:5173/src/App.tsx', [], null, true);
+
         wp_enqueue_style($this->plugin_name, 'http://localhost:5173/src/App.css', [], 'null');
       } else {
+        // Vite is versioning the assets and storing the file names in a manifest file
         $manifestFile = plugin_dir_path(dirname(__FILE__)) . 'admin/excalidraw-editor/dist/.vite/manifest.json';
 
         if (file_exists($manifestFile)) {
           $manifest = json_decode(file_get_contents($manifestFile), true);
+
           wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'excalidraw-editor/dist/' . $manifest['src/App.tsx']['file'], [], null, true);
+
           wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'excalidraw-editor/dist/' . $manifest['src/App.css']['file'], [], null);
         }
       }
     } else {
-      wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/script.js', array(), "1.0", true);
+      // This script is just a placeholder. With it an inline script can be inserted to provide variables from PHP to JS
+      wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/script.js', array(), $this->plugin_version, true);
 
       wp_add_inline_script($this->plugin_name, 'window.EXCALIDRAW_BLOCK_DATA = ' . json_encode(array(
         'newDocUrl' => admin_url('admin.php?page=excalidraw&view=new'),
