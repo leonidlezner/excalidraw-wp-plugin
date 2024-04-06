@@ -67,23 +67,16 @@ function Editor(dataSet: EditorDataSet) {
 
         const jsonData = serializeAsJSON(elements, appState, files, "database");
 
-        const svg = await exportToSvg({
+        const svgConfig = {
           elements: elements,
           appState: { ...appState, exportBackground: false },
           files: files,
-          exportPadding: 2,
-        });
+        };
 
-        const svg_dark = await exportToSvg({
-          elements: elements,
-          appState: {
-            ...appState,
-            exportBackground: false,
-            exportWithDarkMode: true,
-          },
-          files: files,
-          exportPadding: 2,
-        });
+        const svg = await exportToSvg(svgConfig);
+
+        svgConfig.appState.exportWithDarkMode = true;
+        const svg_dark = await exportToSvg(svgConfig);
 
         const thumbnail = await exportToCanvas({
           elements: elements,

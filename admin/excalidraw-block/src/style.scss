@@ -6,5 +6,18 @@
  */
 
 .wp-block-excalidraw-excalidraw-block {
+	.excalidraw-doc svg {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
 
+	.excalidraw-doc {
+		margin: 0 0 1em 0;
+		display: inline-block;
+	}
+
+	.excalidraw-doc-title {
+		text-align: center;
+	}
 }

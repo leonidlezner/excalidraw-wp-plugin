@@ -13,12 +13,12 @@ class Excalidraw_Public
 
   public function enqueue_styles()
   {
-    $file = 'assets/css/excalidraw.css';
+    /* $file = 'assets/css/excalidraw.css';
     $filePath = plugin_dir_path(__FILE__) . $file;
     $fileUrl = plugin_dir_url(__FILE__) . $file;
     $fileTime = filemtime($filePath);
 
-    wp_enqueue_style($this->plugin_name, "$fileUrl", [], $fileTime);
+    wp_enqueue_style($this->plugin_name, "$fileUrl", [], $fileTime); */
   }
 
   public function enqueue_scripts()
