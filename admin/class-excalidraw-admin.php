@@ -290,6 +290,8 @@ class Excalidraw_Admin
 
     if (key_exists('docId', $params)) {
       $sql = $wpdb->prepare($sql . " WHERE uuid = '%s'", $params['docId']);
+    } else {
+      $sql = $sql . " ORDER BY created DESC";
     }
 
     $results = $wpdb->get_results($sql);

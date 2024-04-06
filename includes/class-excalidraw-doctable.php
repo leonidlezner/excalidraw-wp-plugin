@@ -34,7 +34,7 @@ class Excalidraw_DocTable extends WP_List_Table
     // Use this later for sorting etc.
     //$sql = $wpdb->prepare("SELECT * FROM $table_name");
 
-    $sql = "SELECT * FROM $table_name";
+    $sql = "SELECT * FROM $table_name ORDER BY created DESC";
 
     $results = $wpdb->get_results($sql);
 
