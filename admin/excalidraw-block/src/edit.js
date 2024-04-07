@@ -1,6 +1,6 @@
 import { __ } from "@wordpress/i18n";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import {
 	BlockControls,
@@ -34,6 +34,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	const [isLoading, setIsLoading] = useState(true);
 	const [doc, setDoc] = useState(null);
 	const [isGalleryVisible, setIsGalleryVisible] = useState(false);
+	const lastSelectedStateRef = useRef(false);
 
 	const handleSelectDocument = () => {
 		setIsGalleryVisible(true);
@@ -59,7 +60,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	const abortController =
 		typeof AbortController === "undefined" ? undefined : new AbortController();
 
-	const laodDoc = () => {
+	const laodDoc = (silentUpdate = false) => {
 		const _loadDoc = async () => {
 			try {
 				//await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -82,7 +83,10 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 		};
 
 		if (docId) {
-			setIsLoading(true);
+			if (!silentUpdate) {
+				setIsLoading(true);
+			}
+
 			_loadDoc();
 		}
 	};
@@ -90,10 +94,25 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	useEffect(() => {
 		laodDoc();
 
+		const handleWindowFocus = () => {
+			if (!document.hidden) {
+				if (lastSelectedStateRef.current) {
+					laodDoc(true);
+				}
+			}
+		};
+
+		document.addEventListener("visibilitychange", handleWindowFocus);
+
 		return () => {
 			abortController.abort();
+			document.removeEventListener("visibilitychange", handleWindowFocus);
 		};
 	}, [docId]);
+
+	useEffect(() => {
+		lastSelectedStateRef.current = isSelected;
+	}, [isSelected]);
 
 	return (
 		<div {...useBlockProps()}>
@@ -121,7 +140,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 							/>
 						</ToolbarGroup>
 						<ToolbarGroup>
-							<Toolbar>
+							<Toolbar label={__("Document", "excalidraw-block")}>
 								<ToolbarButton
 									icon={update}
 									label={__("Reload", "excalidraw-block")}
