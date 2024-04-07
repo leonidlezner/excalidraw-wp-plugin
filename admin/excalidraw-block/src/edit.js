@@ -40,9 +40,11 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	};
 
 	const handleEdit = () => {
-		window
-			.open(window.EXCALIDRAW_BLOCK_DATA.editDocUrl + docId, "_blank")
-			.focus();
+		const newWindow = window.open(
+			window.EXCALIDRAW_BLOCK_DATA.editDocUrl + docId,
+			"_blank",
+		);
+		newWindow.focus();
 	};
 
 	const handleDocumentSelected = (doc) => {

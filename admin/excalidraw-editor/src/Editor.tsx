@@ -339,7 +339,11 @@ function Editor(dataSet: EditorDataSet) {
   };
 
   const onClose = () => {
-    window.location.href = dataSet.closeUrl;
+    if (window.opener) {
+      window.close();
+    } else {
+      window.location.href = dataSet.closeUrl;
+    }
   };
 
   const onSaveAndCloseDocument = () => {
