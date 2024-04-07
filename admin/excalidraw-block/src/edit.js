@@ -44,6 +44,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 			window.EXCALIDRAW_BLOCK_DATA.editDocUrl + docId,
 			"_blank",
 		);
+
 		newWindow.focus();
 	};
 
