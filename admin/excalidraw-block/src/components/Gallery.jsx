@@ -23,7 +23,9 @@ export default function Gallery({ onSelect, onClose, currentDocId }) {
 
 				const fetchedDocs = JSON.parse(data);
 
-				setDocs(fetchedDocs);
+				if (fetchedDocs?.code == "ok") {
+					setDocs(fetchedDocs.data);
+				}
 			} catch (error) {
 				if (error.name !== "AbortError") {
 					console.error(error);
@@ -64,7 +66,9 @@ export default function Gallery({ onSelect, onClose, currentDocId }) {
 				</div>
 			) : (
 				<div className="not-found">
-					<div>{__("Do Excalidraw documents found!", "excalidraw-block")}</div>
+					<div>
+						{__("No Excalidraw documents were found!", "excalidraw-block")}
+					</div>
 					<a
 						href={window.EXCALIDRAW_BLOCK_DATA.newDocUrl}
 						target="_blank"

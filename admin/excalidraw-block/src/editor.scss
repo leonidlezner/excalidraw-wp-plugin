@@ -9,6 +9,11 @@
 	background-color: white;
 	box-shadow: inset 0 0 0 1px #1e1e1e;
 
+	.error {
+		color: red;
+		margin: 1em 0;
+	}
+
 	.selector {
 		padding: 2em;
 		text-align: center;

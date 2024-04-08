@@ -303,10 +303,14 @@ class Excalidraw_Admin
 
     $results = $wpdb->get_results($sql);
 
-    if (count($results) > 0 && key_exists('docId', $params)) {
-      $results = $results[0];
+    if (key_exists('docId', $params)) {
+      if (count($results) > 0) {
+        $results = $results[0];
+      } else {
+        return new WP_REST_Response(['code' => 'error', 'message' => __("Document not found", $this->plugin_name)], 404);
+      }
     }
 
-    return json_encode($results);
+    return json_encode(['code' => 'ok', 'data' => $results]);
   }
 }

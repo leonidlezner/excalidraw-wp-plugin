@@ -72,10 +72,13 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 
 				const fetchedDoc = JSON.parse(data);
 
-				setDoc(fetchedDoc);
+				if (fetchedDoc?.code == "ok") {
+					setDoc(fetchedDoc.data);
+				} else {
+					setDoc(null);
+				}
 			} catch (error) {
 				if (error.name !== "AbortError") {
-					console.error(error);
 				}
 			}
 
@@ -199,7 +202,7 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						}}
 					/>
 				</div>
-			) : (
+			) : doc ? (
 				<DocContainer
 					doc={doc}
 					resizeControls={isSelected}
@@ -212,6 +215,8 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 						})
 					}
 				/>
+			) : (
+				<Selector onSelect={handleSelectDocument} notFound={true} />
 			)}
 		</div>
 	);
