@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2024-04-09 23:29+0200\n"
+"PO-Revision-Date: 2024-04-09 23:30+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ../src\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: edit.js:123 edit.js:146
+msgid "Document"
+msgstr "Dokument"
+
+#: edit.js:125
+msgid "Show Title"
+msgstr "Titel anzeigen"
+
+#: edit.js:149 edit.js:154
+msgid "Reload"
+msgstr "Neu laden"
+
+#: edit.js:160 edit.js:163
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: edit.js:172 edit.js:176
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: edit.js:176
+msgid "Select"
+msgstr "Auswählen"
+
+#: edit.js:36
+msgid "Block for displaying the Excalidraw documents"
+msgstr "Block für die Anzeige von Excalidraw-Dokumenten"
+
+#: edit.js:36
+msgid "Block for displaying the Excalidraw documents"
+msgstr "Block für die Anzeige von Excalidraw-Dokumenten"
+
+#: edit.js:36
+msgid "Document not found"
+msgstr "Dokument nicht gefunden"
+
+#: edit.js:36
+msgid "Please select an Excalidraw drawing"
+msgstr "Bitte ein Excalidraw Dokument auswählen"
+
+#: edit.js:36
+msgid "Select document"
+msgstr "Dokument auswählen"
+
+#: edit.js:36
+msgid "Create new drawing"
+msgstr "Neue Zeichnung erstellen"

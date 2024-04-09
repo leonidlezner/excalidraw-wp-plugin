@@ -17,6 +17,8 @@ import useStorageState from "./hooks/useStorageState";
 import { useCallbackRefState } from "./hooks/useCallbackRefState";
 import axios from "axios";
 
+import { useTranslation } from "react-i18next";
+
 export type EditorDataSet = {
   docTitle: string;
   docSource: string;
@@ -26,6 +28,7 @@ export type EditorDataSet = {
   nonce: string;
   docUrl: string;
   closeUrl: string;
+  lang: string;
 };
 
 interface BackendResponseData {
@@ -53,6 +56,8 @@ function Editor(dataSet: EditorDataSet) {
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isDirty, setIsDirty] = useState<boolean>(false);
+
+  const { t } = useTranslation();
 
   const saveDocument = (successCallback: Function | undefined = undefined) => {
     if (!excalidrawAPI) {
@@ -141,7 +146,7 @@ function Editor(dataSet: EditorDataSet) {
           successCallback();
         }
       } catch (error) {
-        alert("Error occured during saving: " + error);
+        alert(t("Error occured during saving") + " :" + error);
       }
 
       setIsSaving(false);
@@ -243,7 +248,9 @@ function Editor(dataSet: EditorDataSet) {
     if (isInLocalStorage()) {
       if (
         window.confirm(
-          "Local unsaved version of this document was found. Load the local version?"
+          t(
+            "Local unsaved version of this document was found. Load the local version?"
+          )
         )
       ) {
         loadFromServer = false;
@@ -371,7 +378,7 @@ function Editor(dataSet: EditorDataSet) {
               onClick={onSaveDocument}
               disabled={isSaving}
             >
-              Save
+              {t("Save")}
             </button>
           </div>
           <div>
@@ -380,7 +387,7 @@ function Editor(dataSet: EditorDataSet) {
               onClick={onSaveAndCloseDocument}
               disabled={isSaving}
             >
-              Save and Close
+              {t("Save and Close")}
             </button>
           </div>
           <div>
@@ -389,7 +396,7 @@ function Editor(dataSet: EditorDataSet) {
               onClick={onClose}
               disabled={isSaving}
             >
-              Close
+              {t("Close")}
             </button>
           </div>
         </div>
@@ -405,6 +412,7 @@ function Editor(dataSet: EditorDataSet) {
           onLibraryChange={onLibChange}
           libraryReturnUrl={dataSet.docUrl}
           autoFocus={true}
+          langCode={dataSet.lang}
         />
       </div>
     </div>

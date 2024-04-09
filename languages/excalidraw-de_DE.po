@@ -1,0 +1,78 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2024-04-09 21:40+0200\n"
+"PO-Revision-Date: 2024-04-09 21:40+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: admin/excalidraw-block\n"
+"X-Poedit-SearchPathExcluded-1: admin/excalidraw-editor\n"
+
+#: admin/class-excalidraw-admin.php:99
+msgid "Drawings"
+msgstr "Zeichnungen"
+
+#: admin/class-excalidraw-admin.php:125 admin/class-excalidraw-admin.php:310
+msgid "Document not found"
+msgstr "Dokument nicht gefunden"
+
+#: admin/class-excalidraw-admin.php:138
+msgid "Drawing"
+msgstr "Zeichnung"
+
+#: admin/class-excalidraw-admin.php:191
+#, php-format
+msgid "Document '%s' was successfully deleted!"
+msgstr "Das Dokument '%s' wurde erfolgreich gelöscht!"
+
+#: admin/class-excalidraw-admin.php:206
+msgid "Wrong data sent to server"
+msgstr "Falsche Daten an den Server gesendet"
+
+#: admin/class-excalidraw-admin.php:238
+msgid "Could not update the document"
+msgstr "Das Dokument konnte nicht aktualisiert werden"
+
+#: admin/class-excalidraw-admin.php:252
+msgid "Could not create the document"
+msgstr "Das Dokument konnte nicht erstellt werden"
+
+#: admin/partials/excalidraw-admin-edit.php:3
+msgid "Loading Excalidraw"
+msgstr "Excalidraw laden"
+
+#: admin/partials/excalidraw-admin-list.php:7
+msgid "Add New Drawing"
+msgstr "Neue Zeichnung"
+
+#: admin/partials/excalidraw-admin-list.php:15
+#, php-format
+msgid "Search results for: %s"
+msgstr "Suchergebnisse für: %s"
+
+#: includes/class-excalidraw-doctable.php:23
+msgid "Document"
+msgstr "Dokument"
+
+#: includes/class-excalidraw-doctable.php:24
+msgid "Last modified"
+msgstr "Zuletzt geändert"
+
+#: includes/class-excalidraw-doctable.php:49
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: includes/class-excalidraw-doctable.php:50
+msgid "Delete"
+msgstr "Löschen"
+
+#~ msgid "Drawing "
+#~ msgstr "Zeichnung"

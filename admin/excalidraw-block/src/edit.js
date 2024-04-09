@@ -120,9 +120,9 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 	return (
 		<div {...useBlockProps()}>
 			<InspectorControls>
-				<PanelBody title={__("Document", "excalidraw-block")}>
+				<PanelBody title={__("Document", "excalidraw")}>
 					<ToggleControl
-						label={__("Show Title", "excalidraw-block")}
+						label={__("Show Title", "excalidraw")}
 						checked={showTitle}
 						onChange={(isChecked) =>
 							setAttributes({
@@ -143,24 +143,24 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 							/>
 						</ToolbarGroup>
 						<ToolbarGroup>
-							<Toolbar label={__("Document", "excalidraw-block")}>
+							<Toolbar label={__("Document", "excalidraw")}>
 								<ToolbarButton
 									icon={update}
-									label={__("Reload", "excalidraw-block")}
+									label={__("Reload", "excalidraw")}
 									onClick={() => {
 										laodDoc();
 									}}
 								>
-									{__("Reload", "excalidraw-block")}
+									{__("Reload", "excalidraw")}
 								</ToolbarButton>
 							</Toolbar>
 							<Toolbar>
 								<ToolbarButton
 									icon={edit}
-									label={__("Edit", "excalidraw-block")}
+									label={__("Edit", "excalidraw")}
 									onClick={handleEdit}
 								>
-									{__("Edit", "excalidraw-block")}
+									{__("Edit", "excalidraw")}
 								</ToolbarButton>
 							</Toolbar>
 						</ToolbarGroup>
@@ -169,13 +169,11 @@ export default function Edit({ attributes, setAttributes, isSelected }) {
 				<ToolbarGroup>
 					<Toolbar>
 						<ToolbarButton
-							label={__("Replace", "excalidraw-block")}
+							label={__("Replace", "excalidraw")}
 							onClick={handleSelectDocument}
 							icon={file}
 						>
-							{docId
-								? __("Replace", "excalidraw-block")
-								: __("Select", "excalidraw-block")}
+							{docId ? __("Replace", "excalidraw") : __("Select", "excalidraw")}
 						</ToolbarButton>
 					</Toolbar>
 				</ToolbarGroup>

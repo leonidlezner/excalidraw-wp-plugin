@@ -5,12 +5,12 @@
   "version": "0.1.2",
   "title": "Excalidraw",
   "category": "widgets",
-  "description": "Block for displaying the Excalidraw documents.",
+  "description": "",
   "example": {},
   "supports": {
     "html": false
   },
-  "textdomain": "excalidraw-block",
+  "textdomain": "excalidraw",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",

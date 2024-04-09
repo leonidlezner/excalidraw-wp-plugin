@@ -1,0 +1,30 @@
+{
+	"translation-revision-date": "2024-04-09 23:30+0200",
+	"generator": "WP-CLI/2.10.0",
+	"source": "edit.js",
+	"domain": "messages",
+	"locale_data": {
+		"messages": {
+			"": {
+				"domain": "messages",
+				"lang": "de",
+				"plural-forms": "nplurals=2; plural=(n != 1);"
+			},
+			"Document": ["Dokument"],
+			"Show Title": ["Titel anzeigen"],
+			"Reload": ["Neu laden"],
+			"Edit": ["Bearbeiten"],
+			"Replace": ["Ersetzen"],
+			"Select": ["Ausw\u00e4hlen"],
+			"Block for displaying the Excalidraw documents": [
+				"Block f\u00fcr die Anzeige von Excalidraw-Dokumenten"
+			],
+			"Document not found": ["Dokument nicht gefunden"],
+			"Please select an Excalidraw drawing": [
+				"Bitte ein Excalidraw Dokument ausw\u00e4hlen"
+			],
+			"Select document": ["Dokument ausw\u00e4hlen"],
+			"Create new drawing": ["Neue Zeichnung erstellen"]
+		}
+	}
+}

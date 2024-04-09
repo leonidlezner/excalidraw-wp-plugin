@@ -4,7 +4,7 @@
   <?php
   if (current_user_can('upload_files')) {
   ?>
-    <a href="<?php echo esc_url(admin_url('admin.php?page=excalidraw&view=new')); ?>" class="page-title-action"><?php echo esc_html__('Add New Drawing'); ?></a>
+    <a href="<?php echo esc_url(admin_url('admin.php?page=excalidraw&view=new')); ?>" class="page-title-action"><?php echo __('Add New Drawing', "excalidraw"); ?></a>
   <?php
   }
 
