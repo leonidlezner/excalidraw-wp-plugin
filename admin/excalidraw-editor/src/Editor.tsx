@@ -413,6 +413,7 @@ function Editor(dataSet: EditorDataSet) {
           libraryReturnUrl={dataSet.docUrl}
           autoFocus={true}
           langCode={dataSet.lang}
+          UIOptions={{ canvasActions: { saveToActiveFile: false } }}
         />
       </div>
     </div>
