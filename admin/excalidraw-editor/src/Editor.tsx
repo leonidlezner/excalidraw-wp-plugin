@@ -204,7 +204,7 @@ function Editor(dataSet: EditorDataSet) {
     );
   };
 
-  const loadFromLocalStorage = () => {
+  const loadFromLocalStorage = (centerStage: boolean = false) => {
     if (!excalidrawAPI) {
       return;
     }
@@ -224,7 +224,11 @@ function Editor(dataSet: EditorDataSet) {
         Object.keys(scene.files).map((key) => scene.files[key])
       );
 
-      excalidrawAPI.scrollToContent();
+      if (centerStage) {
+        excalidrawAPI.scrollToContent();
+      }
+
+      console.log("Loaded from local storage");
 
       if (lastSaved) {
         lastSavedVersion.current = getVersion();
@@ -272,7 +276,13 @@ function Editor(dataSet: EditorDataSet) {
             Object.keys(docFiles).map((key) => docFiles[key])
           );
 
+          excalidrawAPI.refresh();
+
           excalidrawAPI.scrollToContent();
+
+          excalidrawAPI.setActiveTool({ type: "selection" });
+
+          console.log("Loaded from server");
 
           lastSavedVersion.current = getVersion();
           setIsDirty(false);
@@ -312,7 +322,7 @@ function Editor(dataSet: EditorDataSet) {
       )?.focus();
 
       setTimeout(() => {
-        loadFromLocalStorage();
+        loadFromLocalStorage(false);
       }, 500);
     };
 
